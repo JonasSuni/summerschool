@@ -3,8 +3,9 @@
 #SBATCH --account=project_2000745
 #SBATCH --partition=test
 #SBATCH --time=00:05:00
-#SBATCH --nodes=1
+##SBATCH --nodes=1
 #SBATCH --ntasks=24
+#SBATCH --cpus-per-task=1
 ##SBATCH --reservation=summerschool
 
 srun prog

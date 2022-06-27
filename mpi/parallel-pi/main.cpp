@@ -18,8 +18,8 @@ int main(int argc, char** argv)
     printf("Computing approximation to pi with N=%d\n", n);
   }
 
-  int istart = rank*n/2+1;
-  int istop = rank*n/2+n/2;
+  int istart = rank*n/ntasks+1;
+  int istop = rank*n/ntasks+n/ntasks;
 
   double pi = 0.0;
   for (int i=istart; i <= istop; i++) {
@@ -28,8 +28,11 @@ int main(int argc, char** argv)
   }
 
   if (rank == 0) {
-    MPI_Recv(&recvbuf,1,MPI_DOUBLE,1,1,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-    pi += recvbuf;
+    for (i=1;i<ntasks;i++) {
+      MPI_Recv(&recvbuf,1,MPI_DOUBLE,i,1,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+      pi += recvbuf;
+    }
+    
     pi *= 4.0 / n;
     printf("Approximate pi=%18.16f (exact pi=%10.8f)\n", pi, M_PI);
   } else {

@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     // TODO: say hello! in parallel
     int rank,ntasks;
-    char name;
+    char name[64];
     int namelen;
 
     MPI_Init(&argc,&argv);
@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
     MPI_Get_processor_name(&name,&namelen);
 
-    std::cout << "Processor name: " << name << "\n";
+    std::cout << "Processor name: " << name << ", len = " << namelen << "\n";
 
     MPI_Finalize();
     return 0;

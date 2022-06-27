@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
     /* Print data that was received */
     /* TODO: add correct buffer */
-    print_buffers(printbuf.data(), recvbuf.data(), 2 * NTASKS);
+    print_buffers(printbuf.data(), sendbuf.data(), 2 * NTASKS);
 
     MPI_Finalize();
     return 0;

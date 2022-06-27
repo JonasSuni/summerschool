@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
     const int sencounts[4] = {1,1,2,4};
     const int displs[4] = {0,0,0,0};
-    MPI_Gatherv( sendbuf.data() , 2 * NTASKS , MPI_INT , recvbuf.data() , sencounts , displs , MPI_INT , 1 , MPI_COMM_WORLD);
+    MPI_Gatherv( sendbuf.data() , sencounts[rank] , MPI_INT , recvbuf.data() , sencounts , displs , MPI_INT , 1 , MPI_COMM_WORLD);
 
     /* Print data that was received */
     /* TODO: add correct buffer */

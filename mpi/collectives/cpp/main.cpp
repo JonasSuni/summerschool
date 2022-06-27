@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     //MPI_Scatter( sendbuf.data() , 2 , MPI_INT , recvbuf.data() , 2 , MPI_INT , 0 , MPI_COMM_WORLD);
 
     const int sencounts[4] = {1,1,2,4};
-    const int displs[4] = {0,0,0,0};
+    const int displs[4] = {0,1,2,4};
     MPI_Gatherv( sendbuf.data() , sencounts[rank] , MPI_INT , recvbuf.data() , sencounts , displs , MPI_INT , 1 , MPI_COMM_WORLD);
 
     /* Print data that was received */

@@ -6,6 +6,8 @@ int main(int argc, char *argv[])
 {
     // TODO: say hello! in parallel
     int rank,ntasks;
+    char [MPI_MAX_PROCESSOR_NAME] name;
+    int namelen;
 
     MPI_Init(&argc,&argv);
     MPI_Comm_size(MPI_COMM_WORLD,&ntasks);
@@ -16,6 +18,10 @@ int main(int argc, char *argv[])
     } else {
         std::cout << "Hello world from rank " << rank << "\n";
     }
+
+    MPI_Get_processor_name(&name,&namelen)
+
+    std::cout << "Processor name: " << name << "\n";
 
     MPI_Finalize();
     return 0;

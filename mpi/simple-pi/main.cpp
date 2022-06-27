@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <cmath>
+#include <mpi.h>
 
 constexpr int n = 840;
 

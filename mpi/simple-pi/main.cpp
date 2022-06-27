@@ -9,7 +9,9 @@ int main(int argc, char** argv)
   
   int ntasks,rank;
 
-  printf("Computing approximation to pi with N=%d\n", n);
+  if (rank == 0) {
+    printf("Computing approximation to pi with N=%d\n", n);
+  }
 
   MPI_Init(&argc,&argv);
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);

@@ -4,7 +4,7 @@
 #SBATCH --partition=test
 #SBATCH --time=00:05:00
 ##SBATCH --nodes=1
-#SBATCH --ntasks=16
+#SBATCH --ntasks=8
 #SBATCH --cpus-per-task=1
 ##SBATCH --reservation=summerschool
 

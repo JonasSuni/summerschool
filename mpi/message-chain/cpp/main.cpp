@@ -46,9 +46,9 @@ int main(int argc, char *argv[])
 
     // TODO: Send messages 
 
-    //MPI_Sendrecv( message.data() , size , MPI_INT , destination , myid+1 , receiveBuffer.data() , size , MPI_INT , source , myid , MPI_COMM_WORLD , &status);
+    MPI_Sendrecv( message.data() , size , MPI_INT , destination , myid+1 , receiveBuffer.data() , size , MPI_INT , source , myid , MPI_COMM_WORLD , &status);
 
-    MPI_Send(message.data(),size,MPI_INT,destination,myid+1,MPI_COMM_WORLD);
+    //MPI_Send(message.data(),size,MPI_INT,destination,myid+1,MPI_COMM_WORLD);
     if (myid != ntasks - 1) {
         printf("Sender: %d. Sent elements: %d. Tag: %d. Receiver: %d\n",
            myid, size, myid + 1, destination);
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
     // TODO: Receive messages
 
-    MPI_Recv(receiveBuffer.data(),size,MPI_INT,source,myid,MPI_COMM_WORLD,&status);
+    //MPI_Recv(receiveBuffer.data(),size,MPI_INT,source,myid,MPI_COMM_WORLD,&status);
     if (myid != 0) {
         MPI_Get_count( &status , MPI_INT , &nrecv);
         printf("Receiver: %d. first element %d. amount received %d\n",

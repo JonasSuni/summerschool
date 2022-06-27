@@ -26,13 +26,13 @@ int main(int argc, char *argv[])
     if (myid == 0) {
         MPI_Send(&message,msgsize,MPI_INT,1,0,MPI_COMM_WORLD);
         MPI_Recv(&receiveBuffer,msgsize,MPI_INT,1,0,MPI_COMM_WORLD,&status);
-//        MPI_Get_count(&status,MPI_INT,&nrecv);
-        printf("Rank %i received %i elements, first %i\n", myid, 1, receiveBuffer[0]);
+        MPI_Get_count(&status,MPI_INT,&nrecv);
+        printf("Rank %i received %i elements, first %i\n", myid, nrecv, receiveBuffer[0]);
     } else if (myid == 1) {
-        MPI_Recv(&receiveBuffer,msgsize,MPI_INT,0,0,MPI_COMM_WORLD,&status);
         MPI_Send(&message,msgsize,MPI_INT,0,0,MPI_COMM_WORLD);
-//        MPI_Get_count(&status,MPI_INT,&nrecv);
-        printf("Rank %i received %i elements, first %i\n", myid, 1, receiveBuffer[0]);
+        MPI_Recv(&receiveBuffer,msgsize,MPI_INT,0,0,MPI_COMM_WORLD,&status);
+        MPI_Get_count(&status,MPI_INT,&nrecv);
+        printf("Rank %i received %i elements, first %i\n", myid, nrecv, receiveBuffer[0]);
     }
 
     MPI_Finalize();

@@ -24,13 +24,13 @@ int main(int argc, char *argv[])
     // Send msgsize elements from the array "message", and receive into 
     // "receiveBuffer"
     if (myid == 0) {
-        MPI_Send(&message,msgsize,MPI_INT,1,0,MPI_COMM_WORLD);
-        MPI_Recv(&receiveBuffer,msgsize,MPI_INT,1,0,MPI_COMM_WORLD,&status);
+        MPI_Send(&message.data,msgsize,MPI_INT,1,0,MPI_COMM_WORLD);
+        MPI_Recv(&receiveBuffer.data,msgsize,MPI_INT,1,0,MPI_COMM_WORLD,&status);
         MPI_Get_count(&status,MPI_INT,&nrecv);
         printf("Rank %i received %i elements, first %i\n", myid, nrecv, receiveBuffer[0]);
     } else if (myid == 1) {
-        MPI_Send(&message,msgsize,MPI_INT,0,0,MPI_COMM_WORLD);
-        MPI_Recv(&receiveBuffer,msgsize,MPI_INT,0,0,MPI_COMM_WORLD,&status);
+        MPI_Recv(&receiveBuffer.data,msgsize,MPI_INT,0,0,MPI_COMM_WORLD,&status);
+        MPI_Send(&message.data,msgsize,MPI_INT,0,0,MPI_COMM_WORLD);
         MPI_Get_count(&status,MPI_INT,&nrecv);
         printf("Rank %i received %i elements, first %i\n", myid, nrecv, receiveBuffer[0]);
     }

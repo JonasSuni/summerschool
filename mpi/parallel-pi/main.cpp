@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 
   if (rank == 0) {
     for (int i=1;i<ntasks;i++) {
-      MPI_Recv(&recvbuf,1,MPI_DOUBLE,i,1,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+      MPI_Recv(&recvbuf,1,MPI_DOUBLE,MPI_ANY_SOURCE,1,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
       pi += recvbuf;
     }
     

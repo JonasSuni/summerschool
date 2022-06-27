@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     // TODO: say hello! in parallel
     int rank,ntasks;
-    char name[MPI_MAX_PROCESSOR_NAME];
+    char name;
     int namelen;
 
     MPI_Init(&argc,&argv);

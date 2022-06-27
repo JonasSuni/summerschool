@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     int myid, ntasks, nrecv;
     constexpr int arraysize = 100000;
-    constexpr int msgsize = 100;
+    constexpr int msgsize = 100000;
     std::vector<int> message(arraysize);
     std::vector<int> receiveBuffer(arraysize);
     MPI_Status status;

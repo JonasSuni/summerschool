@@ -37,11 +37,14 @@ int main(int argc, char *argv[])
      *       some parameters for the call) */
 
     //MPI_Bcast( sendbuf.data() , 2 * NTASKS , MPI_INT , 0 , MPI_COMM_WORLD);
+    
     //MPI_Scatter( sendbuf.data() , 2 , MPI_INT , recvbuf.data() , 2 , MPI_INT , 0 , MPI_COMM_WORLD);
 
     const int sencounts[4] = {1,1,2,4};
     const int displs[4] = {0,1,2,4};
-    MPI_Gatherv( sendbuf.data() , sencounts[rank] , MPI_INT , recvbuf.data() , sencounts , displs , MPI_INT , 1 , MPI_COMM_WORLD);
+    //MPI_Gatherv( sendbuf.data() , sencounts[rank] , MPI_INT , recvbuf.data() , sencounts , displs , MPI_INT , 1 , MPI_COMM_WORLD);
+
+    MPI_Alltoall( sendbuf.data() , 2 , MPI_INT , recvbuf.data() , 2 , MPI_INT , MPI_COMM_WORLD);
 
     /* Print data that was received */
     /* TODO: add correct buffer */

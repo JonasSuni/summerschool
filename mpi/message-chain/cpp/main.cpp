@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
         if (myid == 0) {
             source = MPI_PROC_NULL;
-        } elif (myid == ntasks-1) {
+        } else if (myid == ntasks-1) {
             destination = MPI_PROC_NULL;
         }
 
@@ -46,13 +46,13 @@ int main(int argc, char *argv[])
 
     // TODO: Send messages 
 
-    MPI_Send(message.data(),size,MPI_INT,destination,destination,MPI_COMM_WORLD);
+    MPI_Send(message.data(),size,MPI_INT,destination,myid+1,MPI_COMM_WORLD);
     printf("Sender: %d. Sent elements: %d. Tag: %d. Receiver: %d\n",
            myid, size, myid + 1, destination);
 
     // TODO: Receive messages
 
-    MPI_Recv(receiveBuffer.data(),size,MPI_INT,source,source+1,MPI_COMM_WORLD,&status);
+    MPI_Recv(receiveBuffer.data(),size,MPI_INT,source,myid,MPI_COMM_WORLD,&status);
     printf("Receiver: %d. first element %d.\n",
            myid, receiveBuffer[0]);
 

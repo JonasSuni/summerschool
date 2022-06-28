@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     MPI_Status status;
     MPI_Comm comm2d;
     int dims[2];
-    int period[2] = {0,0}
+    int period[2] = {0,0};
 
     double t0, t1;
 

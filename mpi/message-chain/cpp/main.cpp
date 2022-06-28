@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     constexpr int size = 10000000;
     std::vector<int> message(size);
     std::vector<int> receiveBuffer(size);
-    MPI_Status status;
+    MPI_Status status[2];
     MPI_Comm comm1d;
     int period[1] = {1};
     MPI_Request reqs[2];
@@ -67,12 +67,13 @@ int main(int argc, char *argv[])
 
     MPI_Irecv(receiveBuffer.data(),size,MPI_INT,source,myid,MPI_COMM_WORLD,&reqs[1]);
 
-    MPI_Wait( &reqs[1] , &status);
+    // MPI_Wait( &reqs[1] , &status[1]);
+    MPI_Waitall( 2 , reqs , &status);
     MPI_Request_free( &reqs[0]);
     MPI_Request_free( &reqs[1]);
 
     if (myid != 0) {
-        MPI_Get_count( &status , MPI_INT , &nrecv);
+        MPI_Get_count( &status[1] , MPI_INT , &nrecv);
         printf("Receiver: %d. first element %d. amount received %d\n",
            myid, receiveBuffer[0], nrecv);
     }

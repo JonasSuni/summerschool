@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
             MPI_Cart_shift( comm2d , 1 , 1 , &source , &destination);
         }
         
-        destination = destination % ntasks;
+        destination = destination % (ntasks-1);
 
 
         // if (myid == 0) {

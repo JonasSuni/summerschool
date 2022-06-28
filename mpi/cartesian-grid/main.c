@@ -41,8 +41,8 @@ int main(int argc, char* argv[]) {
 
     /* Find out and store the neighboring ranks */
     /* TO DO */
-    MPI_Cart_shift( comm2d , 0 , 1 , &neighbors[0] , &neighbors[1]);
-    MPI_Cart_shift( comm2d , 1 , -1 , &neighbors[2] , &neighbors[3]);
+    MPI_Cart_shift( comm2d , 1 , 1 , &neighbors[0] , &neighbors[1]);
+    MPI_Cart_shift( comm2d , 0 , -1 , &neighbors[2] , &neighbors[3]);
 
     /* Find out and store also the Cartesian coordinates of a rank */
     /* TO DO */

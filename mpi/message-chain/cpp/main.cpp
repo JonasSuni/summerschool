@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 
     // MPI_Sendrecv( message.data() , size , MPI_INT , destination , destination , receiveBuffer.data() , size , MPI_INT , source , myid , comm1d , &status);
 
-    MPI_Isend(message.data(),size,MPI_INT,destination,myid+1,MPI_COMM_WORLD,&reqs[0]);
+    MPI_Send_init(message.data(),size,MPI_INT,destination,myid+1,MPI_COMM_WORLD,&reqs[0]);
     if (myid != ntasks-1) {
         printf("Sender: %d. Sent elements: %d. Tag: %d. Receiver: %d\n",
            myid, size, myid + 1, destination);
@@ -65,10 +65,13 @@ int main(int argc, char *argv[])
 
     // TODO: Receive messages
 
-    MPI_Irecv(receiveBuffer.data(),size,MPI_INT,source,myid,MPI_COMM_WORLD,&reqs[1]);
+    MPI_Recv_init(receiveBuffer.data(),size,MPI_INT,source,myid,MPI_COMM_WORLD,&reqs[1]);
 
-    // MPI_Wait( &reqs[1] , &status[1]);
-    MPI_Waitall( 2 , reqs , status);
+    MPI_Start( &reqs[0]);
+    MPI_Start( &reqs[1]);
+
+    MPI_Wait( &reqs[1] , &status[1]);
+    //MPI_Waitall( 2 , reqs , status);
     MPI_Request_free( &reqs[0]);
     MPI_Request_free( &reqs[1]);
 

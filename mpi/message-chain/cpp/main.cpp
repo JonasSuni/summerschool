@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     MPI_Status status;
     MPI_Comm comm2d;
     int dims[2];
-    int period[2] = {0,0};
+    int period[2] = {1,1};
 
     double t0, t1;
 
@@ -38,7 +38,17 @@ int main(int argc, char *argv[])
 
         destination = myid + 1;
         source = myid - 1;
-        MPI_Cart_shift( comm2d , 1 , 1 , &source , &destination);
+        if (myid % dims[1] == 0) {
+            MPI_Cart_shift( comm2d , 1 , 1 , &source , &destination);
+            source -= dims[1];
+        } else if (((myid+1)%dims[1] == 0)) {
+            MPI_Cart_shift( comm2d , 1 , 1 , &source , &destination);
+            destination += dims[1];
+        } else {
+            MPI_Cart_shift( comm2d , 1 , 1 , &source , &destination);
+        }
+
+        destination = destination % ntasks;
 
 
         if (myid == 0) {

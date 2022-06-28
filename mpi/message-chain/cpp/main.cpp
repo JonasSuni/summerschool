@@ -47,12 +47,8 @@ int main(int argc, char *argv[])
         } else {
             MPI_Cart_shift( comm2d , 1 , 1 , &source , &destination);
         }
-
-        if (myid == 0) {
-            source += ntasks;
-        } else {
-            destination = destination % ntasks;
-        }
+        
+        destination = destination % ntasks;
 
 
         // if (myid == 0) {
@@ -69,7 +65,7 @@ int main(int argc, char *argv[])
 
     // TODO: Send messages 
 
-    MPI_Sendrecv( message.data() , size , MPI_INT , destination , myid+1 , receiveBuffer.data() , size , MPI_INT , source , myid , comm2d , &status);
+    MPI_Sendrecv( message.data() , size , MPI_INT , destination , destination , receiveBuffer.data() , size , MPI_INT , source , myid , comm2d , &status);
 
     //MPI_Send(message.data(),size,MPI_INT,destination,myid+1,MPI_COMM_WORLD);
     if (true) {

@@ -37,9 +37,9 @@ int main(int argc, char *argv[])
     // Treat boundaries with MPI_PROC_NULL
 
         destination = myid + 1;
+        source = myid - 1;
         MPI_Cart_shift( comm2d , 1 , 1 , &source , &destination);
 
-        source = myid - 1;
 
         if (myid == 0) {
             source = MPI_PROC_NULL;

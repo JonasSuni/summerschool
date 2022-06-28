@@ -51,11 +51,11 @@ int main(int argc, char *argv[])
         destination = destination % ntasks;
 
 
-        if (myid == 0) {
-            source = MPI_PROC_NULL;
-        } else if (myid == ntasks-1) {
-            destination = MPI_PROC_NULL;
-        }
+        // if (myid == 0) {
+        //     source = MPI_PROC_NULL;
+        // } else if (myid == ntasks-1) {
+        //     destination = MPI_PROC_NULL;
+        // }
 
     // end TODO
 
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     MPI_Sendrecv( message.data() , size , MPI_INT , destination , myid+1 , receiveBuffer.data() , size , MPI_INT , source , myid , comm2d , &status);
 
     //MPI_Send(message.data(),size,MPI_INT,destination,myid+1,MPI_COMM_WORLD);
-    if (myid != ntasks - 1) {
+    if (true) {
         printf("Sender: %d. Sent elements: %d. Tag: %d. Receiver: %d\n",
            myid, size, myid + 1, destination);
     }
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
     // TODO: Receive messages
 
     //MPI_Recv(receiveBuffer.data(),size,MPI_INT,source,myid,MPI_COMM_WORLD,&status);
-    if (myid != 0) {
+    if (true) {
         MPI_Get_count( &status , MPI_INT , &nrecv);
         printf("Receiver: %d. first element %d. amount received %d\n",
            myid, receiveBuffer[0], nrecv);

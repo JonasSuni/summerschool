@@ -28,7 +28,9 @@ int main(int argc, char *argv[])
         message[i] = myid;
     }
 
-    MPI_Dims_create( ntasks , 2 , dims);
+    // MPI_Dims_create( ntasks , 2 , dims);
+    dims[0] = 4;
+    dims[1] = 4;
     MPI_Cart_create( MPI_COMM_WORLD , 2 , dims , period , 0 , &comm2d);
 
     // TODO: set source and destination ranks 

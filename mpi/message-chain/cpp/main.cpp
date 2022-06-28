@@ -68,7 +68,8 @@ int main(int argc, char *argv[])
     MPI_Irecv(receiveBuffer.data(),size,MPI_INT,source,myid,MPI_COMM_WORLD,&reqs[1]);
 
     MPI_Wait( &reqs[1] , &status);
-    MPI_Request_free( &status);
+    MPI_Request_free( &reqs[0]);
+    MPI_Request_free( &reqs[1]);
 
     if (myid != 0) {
         MPI_Get_count( &status , MPI_INT , &nrecv);

@@ -67,11 +67,13 @@ int main(int argc, char *argv[])
 
     MPI_Recv_init(receiveBuffer.data(),size,MPI_INT,source,myid,MPI_COMM_WORLD,&reqs[1]);
 
-    MPI_Start( &reqs[0]);
-    MPI_Start( &reqs[1]);
+    // MPI_Start( &reqs[0]);
+    // MPI_Start( &reqs[1]);
 
-    MPI_Wait( &reqs[1] , &status[1]);
-    //MPI_Waitall( 2 , reqs , status);
+    MPI_Startall( 2 , reqs);
+
+    // MPI_Wait( &reqs[1] , &status[1]);
+    MPI_Waitall( 2 , reqs , status);
     MPI_Request_free( &reqs[0]);
     MPI_Request_free( &reqs[1]);
 

@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     // dims[0] = 4;
     // dims[1] = 4;
     dims[0] = ntasks;
-    MPI_Cart_create( MPI_COMM_WORLD , 1 , ntasks , dims , 0 , &comm1d);
+    MPI_Cart_create( MPI_COMM_WORLD , 1  , dims, period , 0 , &comm1d);
 
     // TODO: set source and destination ranks 
     // Treat boundaries with MPI_PROC_NULL

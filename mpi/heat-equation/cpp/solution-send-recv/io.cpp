@@ -51,12 +51,13 @@ void write_field(const Field& field, const int iter, const ParallelData parallel
     //              MPI_DOUBLE, 0, 22, MPI_COMM_WORLD);
     // }
 
+    auto full_data = Matrix<double> (height, width);
     for (int i = 0; i < field.nx; i++)
             for (int j = 0; j < field.ny; j++)
-                tmp_mat(i, j) = field(i + 1, j + 1);
+                full_data(i, j) = field(i + 1, j + 1);
 
-    auto full_data = Matrix<double> (height, width);
-    MPI_Gather( tmp_mat.data() , field.nx*field.ny , MPI_DOUBLE , full_data.data() , field.nx*field.ny , MPI_DOUBLE , 0 , MPI_COMM_WORLD);
+    
+    MPI_Gather( full_data.data() , field.nx*field.ny , MPI_DOUBLE , full_data.data() , field.nx*field.ny , MPI_DOUBLE , 0 , MPI_COMM_WORLD);
     // Write out the data to a png file 
     std::ostringstream filename_stream;
     filename_stream << "heat_" << std::setw(4) << std::setfill('0') << iter << ".png";

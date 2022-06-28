@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
     std::vector<int> receiveBuffer(size);
     MPI_Status status;
     MPI_Comm comm1d;
-    int dims[1];
     int period[1] = {1};
+    MPI_Request reqs[2];
 
     double t0, t1;
 
@@ -23,15 +23,13 @@ int main(int argc, char *argv[])
     MPI_Comm_size(MPI_COMM_WORLD, &ntasks);
     MPI_Comm_rank(MPI_COMM_WORLD, &myid);
 
+    int dims[1] = {ntasks};
+
     // Initialize message
     for (i = 0; i < size; i++) {
         message[i] = myid;
     }
 
-    // MPI_Dims_create( ntasks , 2 , dims);
-    // dims[0] = 4;
-    // dims[1] = 4;
-    dims[0] = ntasks;
     MPI_Cart_create( MPI_COMM_WORLD , 1  , dims, period , 0 , &comm1d);
 
     // TODO: set source and destination ranks 
@@ -39,14 +37,14 @@ int main(int argc, char *argv[])
 
         destination = myid + 1;
         source = myid - 1;
-        MPI_Cart_shift( comm1d , 1 , 1 , &source , &destination);
+        // MPI_Cart_shift( comm1d , 1 , 1 , &source , &destination);
 
 
-        // if (myid == 0) {
-        //     source = MPI_PROC_NULL;
-        // } else if (myid == ntasks-1) {
-        //     destination = MPI_PROC_NULL;
-        // }
+        if (myid == 0) {
+            source = MPI_PROC_NULL;
+        } else if (myid == ntasks-1) {
+            destination = MPI_PROC_NULL;
+        }
 
     // end TODO
 
@@ -56,10 +54,10 @@ int main(int argc, char *argv[])
 
     // TODO: Send messages 
 
-    MPI_Sendrecv( message.data() , size , MPI_INT , destination , destination , receiveBuffer.data() , size , MPI_INT , source , myid , comm1d , &status);
+    // MPI_Sendrecv( message.data() , size , MPI_INT , destination , destination , receiveBuffer.data() , size , MPI_INT , source , myid , comm1d , &status);
 
-    //MPI_Send(message.data(),size,MPI_INT,destination,myid+1,MPI_COMM_WORLD);
-    if (true) {
+    MPI_Isend(message.data(),size,MPI_INT,destination,myid+1,MPI_COMM_WORLD,&reqs[0]);
+    if (myid != ntasks-1) {
         printf("Sender: %d. Sent elements: %d. Tag: %d. Receiver: %d\n",
            myid, size, myid + 1, destination);
     }
@@ -67,8 +65,11 @@ int main(int argc, char *argv[])
 
     // TODO: Receive messages
 
-    //MPI_Recv(receiveBuffer.data(),size,MPI_INT,source,myid,MPI_COMM_WORLD,&status);
-    if (true) {
+    MPI_Irecv(receiveBuffer.data(),size,MPI_INT,source,myid,MPI_COMM_WORLD,&reqs[1]);
+
+    MPI_Wait( &reqs[1] , &status);
+
+    if (myid != 0) {
         MPI_Get_count( &status , MPI_INT , &nrecv);
         printf("Receiver: %d. first element %d. amount received %d\n",
            myid, receiveBuffer[0], nrecv);

@@ -17,13 +17,18 @@ void exchange(Field& field, const ParallelData parallel)
 
     // Send to up, receive from down
 
-    // MPI_Send( sbuf , field.ny + 2 , MPI_DOUBLE , parallel.ndown , parallel.ndown , MPI_COMM_WORLD);
+    MPI_Send( sbuf , field.ny + 2 , MPI_DOUBLE , parallel.nup , parallel.nup , MPI_COMM_WORLD);
+    MPI_Recv( void* buf , int count , MPI_Datatype datatype , parallel.ndown , parallel.rank , MPI_COMM_WORLD , MPI_STATUS_IGNORE);
 
     // Send to down, receive from up
 
-    // MPI_Recv( rbuf , field.ny + 2 , MPI_DOUBLE , parallel.nup , parallel.rank , MPI_COMM_WORLD , MPI_STATUS_IGNORE);
+    sbuf = field.temperature.data(field.nx,0);
+    rbuf = field.temperature.data();
 
-    MPI_Sendrecv( sbuf , field.ny + 2 , MPI_DOUBLE , parallel.ndown , parallel.ndown , rbuf , field.ny + 2 , MPI_DOUBLE , parallel.nup , parallel.rank , MPI_COMM_WORLD , MPI_STATUS_IGNORE);
+    MPI_Recv( rbuf , field.ny + 2 , MPI_DOUBLE , parallel.nup , parallel.rank , MPI_COMM_WORLD , MPI_STATUS_IGNORE);
+    MPI_Send( sbuf , field.ny + 2 , MPI_DOUBLE , parallel.ndown , parallel.ndown , MPI_COMM_WORLD);
+
+    // MPI_Sendrecv( sbuf , field.ny + 2 , MPI_DOUBLE , parallel.ndown , parallel.ndown , rbuf , field.ny + 2 , MPI_DOUBLE , parallel.nup , parallel.rank , MPI_COMM_WORLD , MPI_STATUS_IGNORE);
 
     // TODO end
 }

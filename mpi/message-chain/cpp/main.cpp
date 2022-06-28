@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     std::vector<int> message(size);
     std::vector<int> receiveBuffer(size);
     MPI_Status status;
-    MPI_Comm comm2d;
+    MPI_Comm comm1d;
     int dims[2];
     int period[2] = {1,1};
 
@@ -29,26 +29,16 @@ int main(int argc, char *argv[])
     }
 
     // MPI_Dims_create( ntasks , 2 , dims);
-    dims[0] = 4;
-    dims[1] = 4;
-    MPI_Cart_create( MPI_COMM_WORLD , 2 , dims , period , 0 , &comm2d);
+    // dims[0] = 4;
+    // dims[1] = 4;
+    MPI_Cart_create( MPI_COMM_WORLD , 1 , ntasks , 0 , 0 , &comm1d);
 
     // TODO: set source and destination ranks 
     // Treat boundaries with MPI_PROC_NULL
 
         destination = myid + 1;
         source = myid - 1;
-        if (myid % dims[1] == 0) {
-            MPI_Cart_shift( comm2d , 1 , 1 , &source , &destination);
-            source -= dims[1];
-        } else if (((myid+1)%dims[1] == 0)) {
-            MPI_Cart_shift( comm2d , 1 , 1 , &source , &destination);
-            destination += dims[1];
-        } else {
-            MPI_Cart_shift( comm2d , 1 , 1 , &source , &destination);
-        }
-        
-        destination = destination % (ntasks-1);
+        MPI_Cart_shift( comm2d , 1 , 1 , &source , &destination);
 
 
         // if (myid == 0) {

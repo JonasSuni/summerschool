@@ -8,8 +8,8 @@
 void exchange(Field& field, const ParallelData parallel)
 {
 
-    double* sbuf;
-    double* rbuf;
+    double* sbuf = field.temperature.data(1,0);
+    double* rbuf = field.temperature.data(field.nx + 1,0);
     // TODO start: implement halo exchange  
 
     // You can utilize the data() method of the Matrix class to obtain pointer
@@ -17,7 +17,11 @@ void exchange(Field& field, const ParallelData parallel)
 
     // Send to up, receive from down
 
+    MPI_Send( sbuf , field.ny + 2 , MPI_DOUBLE , parallel.ndown , parallel.ndown , MPI_COMM_WORLD);
+
     // Send to down, receive from up
+
+    MPI_Recv( rbuf , field.ny + 2 , MPI_DOUBLE , parallel.nup , parallel.rank , MPI_COMM_WORLD , MPI_STATUS_IGNORE);
 
 
     // TODO end

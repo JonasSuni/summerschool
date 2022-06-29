@@ -8,6 +8,6 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --reservation=summerschool
 
-umask 007
-
 srun ./writer
+wait
+srun ./reader

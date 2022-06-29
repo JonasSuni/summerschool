@@ -8,6 +8,7 @@
 #define WRITER_ID   0
 
 void single_writer(int, int *, int);
+void multi_writer(int,int*,int);
 
 
 int main(int argc, char *argv[])
@@ -39,6 +40,7 @@ int main(int argc, char *argv[])
     }
 
     single_writer(my_id, localvector, localsize);
+    // multi_writer(my_id,localvector,localsize);
 
     free(localvector);
 
@@ -60,11 +62,23 @@ void single_writer(int my_id, int *localvector, int localsize)
 
     if (my_id == WRITER_ID) {
         fp = fopen("output.dat","wb");
-        fwrite(fullvector,sizeof(int),sizeof(fullvector),fp);
+        fwrite(fullvector,sizeof(int),DATASIZE,fp);
         fclose(fp);
     }
     
 
     free(fullvector);
+}
+
+void multi_writer(int my_id, int *localvector, int localsize) {
+    FILE *fp;
+    char filename[64];
+
+    sprintf(filename,"output_%d.dat",my_id);
+
+    fp = fopen(filename,"wb");
+
+    fwrite(localvector,sizeof(int),localsize,fp);
+    fclose(fp);
 }
 

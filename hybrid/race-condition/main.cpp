@@ -18,8 +18,9 @@ int main(void)
            sumex);
 
     sum = 0.0;
+    psum = 0.0;
     /* TODO: Parallelize computation */
-    #pragma omp parallel 
+    #pragma omp parallel shared(vecA) private(i) reduction(+:sum)
     {
         
         #pragma omp for

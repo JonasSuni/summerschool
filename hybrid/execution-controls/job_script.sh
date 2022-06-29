@@ -7,4 +7,6 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --reservation=summerschool
 
+export OMP_NUM_THREADS=16
+
 srun ./main

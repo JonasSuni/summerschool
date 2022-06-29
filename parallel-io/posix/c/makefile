@@ -1,4 +1,5 @@
 
+
 writer: spokesman.c
 	mpicxx -o $@ $^
 
@@ -9,4 +10,3 @@ clean:
 	rm -f writer
 	rm -f reader
 	rm -f output.dat
-

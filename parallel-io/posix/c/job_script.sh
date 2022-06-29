@@ -4,8 +4,8 @@
 #SBATCH --partition=large
 #SBATCH --time=00:05:00
 ##SBATCH --nodes=1
-#SBATCH --ntasks=16
+#SBATCH --ntasks=4
 #SBATCH --cpus-per-task=1
 #SBATCH --reservation=summerschool
 
-srun ./main
+srun ./writer

@@ -49,7 +49,9 @@ int main(int argc, char *argv[])
 void single_writer(int my_id, int *localvector, int localsize)
 {
     FILE *fp;
-    int *fullvector[DATASIZE];
+    int* fullvector;
+
+    fullvector = (int *) malloc(DATASIZE * sizeof(int));
 
     /* TODO: Implement a function that will write the data to file so that
        a single process does the file io. Use rank WRITER_ID as the io rank */

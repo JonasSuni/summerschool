@@ -8,4 +8,5 @@ reader: spokesman_reader.c
 clean:
 	rm -f writer
 	rm -f reader
+	rm -f output.dat
 

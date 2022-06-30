@@ -45,6 +45,7 @@ int main()
   int n,fibonacci;
   double starttime;
   printf("Please insert n, to calculate fib(n): \n");
+  n = 10;
   scanf("%d",&n);
   starttime=omp_get_wtime();
 

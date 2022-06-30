@@ -8,4 +8,4 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --reservation=summerschool
 
-srun ./heat_mpi bottle.dat
+srun ./heat_mpi ../common/bottle.dat

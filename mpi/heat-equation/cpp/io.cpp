@@ -30,7 +30,7 @@ void write_field(const Field& field, const int iter, const ParallelData parallel
         // Receive data from other ranks
         for (int p = 1; p < parallel.size; p++) {
             MPI_Recv(tmp_mat.data(), field.nx * field.ny,
-                     MPI_DOUBLE, p, 22, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+                     MPI_DOUBLE, p, 22, parallel.communicator, MPI_STATUS_IGNORE);
             // Copy data to full array 
             for (int i = 0; i < field.nx; i++) 
                 for (int j = 0; j < field.ny; j++) 
@@ -48,7 +48,7 @@ void write_field(const Field& field, const int iter, const ParallelData parallel
                 tmp_mat(i, j) = field(i + 1, j + 1);
 
         MPI_Send(tmp_mat.data(), field.nx * field.ny,
-                 MPI_DOUBLE, 0, 22, MPI_COMM_WORLD);
+                 MPI_DOUBLE, 0, 22, parallel.communicator);
     }
 
 }
@@ -92,7 +92,7 @@ void read_field(Field& field, std::string filename,
                 //  MPI_DOUBLE, 0, 22, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
-    MPI_Scatter( full.data() , field.nx*field.ny , MPI_DOUBLE , inner.data() , field.nx*field.ny , MPI_DOUBLE , 0 , MPI_COMM_WORLD);
+    MPI_Scatter( full.data() , field.nx*field.ny , MPI_DOUBLE , inner.data() , field.nx*field.ny , MPI_DOUBLE , 0 , parallel.communicator);
 
     file.close();
 

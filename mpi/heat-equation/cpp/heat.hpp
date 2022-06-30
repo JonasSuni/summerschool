@@ -8,14 +8,22 @@ struct ParallelData {
     int size;            // Number of MPI tasks
     int rank;
     int nup, ndown;      // Ranks of neighbouring MPI tasks
+    MPI_Comm communicator;
 
     ParallelData() {      // Constructor
 
       // TODO start: query number of MPI tasks and store it in
       // the size attribute of the class
 
+      int dims[1];
+      int periods[1];
+
       MPI_Comm_rank( MPI_COMM_WORLD , &rank);
       MPI_Comm_size( MPI_COMM_WORLD , &size);
+      dims[0] = size;
+      periods[0] = 0;
+
+      MPI_Cart_create( MPI_COMM_WORLD , 1 , dims , periods , 0 , &communicator);
 
       // Query MPI rank of this task and store it in the rank attribute
       // Determine also up and down neighbours of this domain and store
@@ -25,11 +33,13 @@ struct ParallelData {
       nup = rank - 1;
       ndown = rank + 1;
 
-      if (rank == 0) {
-        nup = MPI_PROC_NULL;
-      } else if (rank == size-1) {
-        ndown = MPI_PROC_NULL;
-      }
+      MPI_Cart_shift( communicator , 1 , 1 , &nup , &ndown);
+
+      // if (rank == 0) {
+      //   nup = MPI_PROC_NULL;
+      // } else if (rank == size-1) {
+      //   ndown = MPI_PROC_NULL;
+      // }
 
       // TODO end
 

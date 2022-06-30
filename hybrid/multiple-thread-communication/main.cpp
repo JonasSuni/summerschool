@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     MPI_Comm_rank( MPI_COMM_WORLD , &mpi_rank);
     MPI_Comm_size( MPI_COMM_WORLD , &ntasks);
 
-    #pragma omp parallel
+    #pragma omp parallel shared(mpi_rank,ntasks)
     {
         int omp_rank = omp_get_thread_num();
         int recvbuf[ntasks] = {-1};

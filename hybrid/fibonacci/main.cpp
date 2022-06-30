@@ -49,9 +49,9 @@ int main()
   starttime=omp_get_wtime();
 
   #pragma omp parallel
-  #pragma omp single
   {
-  fibonacci=fib(n);
+    #pragma omp single
+    fibonacci=fib(n);
   }
 
   printf("fib(%d)=%d \n",n,fibonacci);

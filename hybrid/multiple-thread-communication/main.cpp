@@ -4,18 +4,21 @@
 
 int main(int argc, char *argv[])
 {
-    int mpi_rank,omp_rank, ntasks;
+    int mpi_rank, ntasks;
     int provided, required=MPI_THREAD_MULTIPLE;
 
     MPI_Init_thread( &argc , &argv , required , &provided);
     MPI_Comm_rank( MPI_COMM_WORLD , &mpi_rank);
     MPI_Comm_size( MPI_COMM_WORLD , &ntasks);
 
-    #pragma omp parallel private(omp_rank)
+    #pragma omp parallel
     {
-        omp_rank = omp_get_thread_num();
+        int omp_rank = omp_get_thread_num();
         int recvbuf[ntasks] = {-1};
-        int sendbuf[ntasks] = {omp_rank};
+        int sendbuf[ntasks];
+        for (int i=0;i<ntasks;i++) {
+            sendbuf[i] = omp_rank;
+        }
 
         if (mpi_rank == 0) {
             MPI_Send( &sendbuf , ntasks , MPI_INT , 1 , omp_rank , MPI_COMM_WORLD);

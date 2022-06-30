@@ -3,7 +3,7 @@
 #SBATCH --account=project_2000745
 #SBATCH --partition=large
 #SBATCH --time=00:05:00
-#SBATCH --nodes=1
+##SBATCH --nodes=1
 #SBATCH --ntasks=4
 #SBATCH --cpus-per-task=4
 #SBATCH --reservation=summerschool

@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <omp.h>
+#include <mpi.h>
 
 int main(int argc, int * argv[])
 {

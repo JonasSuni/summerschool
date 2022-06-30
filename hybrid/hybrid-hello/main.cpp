@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
     printf("My MPI rank is %d and my OMP rank is %d\n",my_id,omp_rank);
 
     }
+    printf("My MPI rank is %d and thread support provided is %d\n",my_id,provided);
 
     /* TODO: Investigate the provided thread support level. */
 

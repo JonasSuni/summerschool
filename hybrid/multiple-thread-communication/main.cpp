@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
         int recvbuf[ntasks] = {-1};
         int sendbuf[ntasks] = {omp_rank};
 
-        if (rank == 0) {
+        if (mpi_rank == 0) {
             MPI_Send( &sendbuf , ntasks , MPI_INT , 1 , omp_rank , MPI_COMM_WORLD);
             MPI_Send( &sendbuf , ntasks , MPI_INT , 2 , omp_rank , MPI_COMM_WORLD);
         } else {

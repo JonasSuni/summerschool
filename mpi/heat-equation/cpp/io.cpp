@@ -92,7 +92,7 @@ void read_field(Field& field, std::string filename,
                 //  MPI_DOUBLE, 0, 22, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
-    MPI_Scatter( full.data() , field.nx*field.ny , MPI_DOUBLE , inner.data , field.nx*field.ny , MPI_DOUBLE , 0 , MPI_COMM_WORLD);
+    MPI_Scatter( full.data() , field.nx*field.ny , MPI_DOUBLE , inner.data() , field.nx*field.ny , MPI_DOUBLE , 0 , MPI_COMM_WORLD);
 
     file.close();
 

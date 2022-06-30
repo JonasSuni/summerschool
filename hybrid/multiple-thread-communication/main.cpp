@@ -2,7 +2,7 @@
 #include <omp.h>
 #include <mpi.h>
 
-int main(int argc, int * argv[])
+int main(int argc, char *argv[])
 {
     int mpi_rank,omp_rank, ntasks;
     int provided, required=MPI_THREAD_MULTIPLE;

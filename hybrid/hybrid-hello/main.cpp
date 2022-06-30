@@ -9,8 +9,19 @@ int main(int argc, char *argv[])
 
     /* TODO: Initialize MPI with thread support. */
 
+    MPI_Init_thread( &argc , &argv , required , &provided);
+
     /* TODO: Find out the MPI rank and thread ID of each thread and print
      *       out the results. */
+
+    #pragma omp parallel private(my_id,omp_rank)
+    {
+    MPI_Comm_rank( MPI_COMM_WORLD , &my_id);
+    omp_rank = omp_get_thread_num();
+
+    printf("My MPI rank is %d and my OMP rank is %d",my_id,omp_rank);
+
+    }
 
     /* TODO: Investigate the provided thread support level. */
 

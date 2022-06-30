@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     MPI_Comm_rank( MPI_COMM_WORLD , &my_id);
     omp_rank = omp_get_thread_num();
 
-    printf("My MPI rank is %d and my OMP rank is %d",my_id,omp_rank);
+    printf("My MPI rank is %d and my OMP rank is %d\n",my_id,omp_rank);
 
     }
 

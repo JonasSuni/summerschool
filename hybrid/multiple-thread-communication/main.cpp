@@ -14,10 +14,11 @@ int main(int argc, char *argv[])
     #pragma omp parallel shared(mpi_rank,ntasks)
     {
         int omp_rank = omp_get_thread_num();
-        int recvbuf[ntasks] = {-1};
+        int recvbuf[ntasks];
         int sendbuf[ntasks];
         for (int i=0;i<ntasks;i++) {
             sendbuf[i] = omp_rank;
+            recvbuf[i] = -1;
         }
 
         if (mpi_rank == 0) {

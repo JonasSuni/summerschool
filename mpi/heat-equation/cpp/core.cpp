@@ -35,6 +35,26 @@ void exchange(Field& field, const ParallelData parallel)
     // TODO end
 }
 
+void exchange_init(Field& field, const ParallelData parallel) 
+{
+    double* sbuf = field.temperature.data(1,0);
+    double* rbuf = field.temperature.data(field.nx + 1,0);
+
+    MPI_Isend( sbuf , field.ny + 2 , MPI_DOUBLE , parallel.nup , parallel.nup , parallel.communicator , &parallel.request[0]);
+    MPI_Irecv( rbuf , field.ny + 2 , MPI_DOUBLE , parallel.ndown , parallel.rank , parallel.communicator , &parallel.request[1]);
+
+    sbuf = field.temperature.data(field.nx,0);
+    rbuf = field.temperature.data();
+
+    MPI_Isend( sbuf , field.ny + 2 , MPI_DOUBLE , parallel.ndown , parallel.ndown , parallel.communicator , &parallel.request[2]);
+    MPI_Irecv( rbuf , field.ny + 2 , MPI_DOUBLE , parallel.nup , parallel.rank , parallel.communicator , &parallel.request[3]);
+}
+
+void exchange_fin(const ParallelData parallel)
+{
+    MPI_Waitall( 4 , parallel.request , parallel.request);
+}
+
 // Update the temperature values using five-point stencil */
 void evolve(Field& curr, const Field& prev, const double a, const double dt)
 {
@@ -56,3 +76,44 @@ void evolve(Field& curr, const Field& prev, const double a, const double dt)
   }
 
 }
+
+void evolve_inner(Field& curr, const Field& prev, const double a, const double dt)
+{
+
+    auto inv_dx2 = 1.0 / (prev.dx * prev.dx);
+    auto inv_dy2 = 1.0 / (prev.dy * prev.dy);
+
+    for (int i = 2; i < curr.nx; i++) {
+      for (int j = 1; j < curr.ny + 1; j++) {
+            curr(i, j) = prev(i, j) + a * dt * (
+	       ( prev(i + 1, j) - 2.0 * prev(i, j) + prev(i - 1, j) ) * inv_dx2 +
+	       ( prev(i, j + 1) - 2.0 * prev(i, j) + prev(i, j - 1) ) * inv_dy2
+               );
+      }
+    }
+}
+
+void evolve_edge(Field& curr, const Field& prev, const double a, const double dt)
+{
+
+    auto inv_dx2 = 1.0 / (prev.dx * prev.dx);
+    auto inv_dy2 = 1.0 / (prev.dy * prev.dy);
+
+    int i = 1;
+    for (int j = 1; j < curr.ny + 1; j++) {
+          curr(i, j) = prev(i, j) + a * dt * (
+        ( prev(i + 1, j) - 2.0 * prev(i, j) + prev(i - 1, j) ) * inv_dx2 +
+        ( prev(i, j + 1) - 2.0 * prev(i, j) + prev(i, j - 1) ) * inv_dy2
+              );
+    }
+
+    i = curr.nx;
+    for (int j = 1; j < curr.ny + 1; j++) {
+          curr(i, j) = prev(i, j) + a * dt * (
+        ( prev(i + 1, j) - 2.0 * prev(i, j) + prev(i - 1, j) ) * inv_dx2 +
+        ( prev(i, j + 1) - 2.0 * prev(i, j) + prev(i, j - 1) ) * inv_dy2
+              );
+    }
+}
+
+

@@ -9,6 +9,8 @@ struct ParallelData {
     int rank;
     int nup, ndown;      // Ranks of neighbouring MPI tasks
     MPI_Comm communicator;
+    MPI_Request request[4];
+    MPI_Status status[4];
 
     ParallelData() {      // Constructor
 

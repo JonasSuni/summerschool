@@ -15,7 +15,7 @@ endif
 ifeq ($(COMP),intel)
 CXX=icpc
 CC=icc
-CCFLAGS=-g -O3 -xHost -I$(COMMONDIR) -DNDEBUG
+CCFLAGS=-g -O3 -xHost -I$(COMMONDIR) -DNDEBUG -fopenmp
 LDFLAGS=
 LIBS=-lpng
 endif

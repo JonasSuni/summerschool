@@ -8,7 +8,6 @@
 #SBATCH --gres=gpu:v100:1
 #SBATCH --reservation=summerschool-gpu
 
-module load nvhpc/21.9
-module load nvhpc-mpi/openmpi-4.0.5
+nvidia_smi
 
 srun ./main

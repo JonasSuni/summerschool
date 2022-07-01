@@ -1,6 +1,6 @@
 
 main: main.c
-	nvc -o $@ $^ -mp=gpu -gpu=cc70
+	nvc -o $@ $^ -fopenmp -mp=gpu -gpu=cc70
 
 cpu: main.c
 	nvc -o main main.c -mp

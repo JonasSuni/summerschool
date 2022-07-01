@@ -79,8 +79,13 @@ void initialize(int argc, char *argv[], Field& current,
                 Field& previous, int& nsteps, ParallelData parallel);
 
 void exchange(Field& field, const ParallelData parallel);
+void exchange_init(Field& field, const ParallelData parallel);
+void exchange_fin(const ParallelData parallel);
 
 void evolve(Field& curr, const Field& prev, const double a, const double dt);
+void evolve_inner(Field& curr, const Field& prev, const double a, const double dt);
+void evolve_edge(Field& curr, const Field& prev, const double a, const double dt);
+
 
 void write_field(const Field& field, const int iter, const ParallelData parallel);
 

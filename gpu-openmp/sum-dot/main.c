@@ -12,7 +12,6 @@ int main(void)
         vecB[i] = vecA[i] * vecA[i];
     }
 
-    double res;
 
     // TODO start: create a data region and offload the two computations
     // so that data is kept in the device between the computations

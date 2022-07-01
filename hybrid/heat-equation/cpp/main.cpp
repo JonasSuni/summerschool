@@ -25,8 +25,11 @@ int main(int argc, char **argv)
     Field current, previous;    // Current and previous temperature fields
 
     // TODO: determine number of threads
-    #pragma omp parallel single
+    #pragma omp parallel
+    {
+    #pragma omp single
     num_threads = omp_get_num_threads();
+    }
     // TODO end
 
     initialize(argc, argv, current, previous, nsteps);

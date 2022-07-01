@@ -1,6 +1,6 @@
 
 main: main.c
-	nvc -o $@ $^ -mp=gpu -gpu=cc70
+	nvc -o $@ $^ -mp
 
 clean:
 	rm -f main

@@ -50,7 +50,7 @@ void exchange_init(Field& field, ParallelData& parallel)
     MPI_Irecv( rbuf , field.ny + 2 , MPI_DOUBLE , parallel.nup , parallel.rank , parallel.communicator , &parallel.request[3]);
 }
 
-void exchange_fin(&ParallelData parallel)
+void exchange_fin(ParallelData& parallel)
 {
     MPI_Waitall( 4 , parallel.request , parallel.status);
 }

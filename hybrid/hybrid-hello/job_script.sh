@@ -1,11 +1,10 @@
 #!/bin/bash
-#SBATCH --job-name=training090_mpi
+#SBATCH --job-name=training090_gpu
 #SBATCH --account=project_2000745
-#SBATCH --partition=large
+#SBATCH --partition=gpu
 #SBATCH --time=00:05:00
-##SBATCH --nodes=1
-#SBATCH --ntasks=4
-#SBATCH --cpus-per-task=4
-#SBATCH --reservation=summerschool
+#SBATCH --ntasks-per-node=1
+#SBATCH --gres=gpu:v100:1
+#SBATCH --reservation=summerschool_gpu
 
 srun ./main

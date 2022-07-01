@@ -5,6 +5,6 @@
 #SBATCH --time=00:05:00
 #SBATCH --ntasks-per-node=1
 #SBATCH --gres=gpu:v100:1
-#SBATCH --reservation=summerschool_gpu
+#SBATCH --reservation=summerschool-gpu
 
 srun ./main

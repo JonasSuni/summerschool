@@ -52,7 +52,7 @@ void exchange_init(Field& field, const ParallelData parallel)
 
 void exchange_fin(const ParallelData parallel)
 {
-    MPI_Waitall( 4 , parallel.request , parallel.status);
+    MPI_Waitall( 4 , parallel.request , &parallel.status);
 }
 
 // Update the temperature values using five-point stencil */

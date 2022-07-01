@@ -35,7 +35,7 @@ void exchange(Field& field, const ParallelData parallel)
     // TODO end
 }
 
-void exchange_init(Field& field, const ParallelData parallel) 
+void exchange_init(Field& field, ParallelData& parallel) 
 {
     double* sbuf = field.temperature.data(1,0);
     double* rbuf = field.temperature.data(field.nx + 1,0);
@@ -50,7 +50,7 @@ void exchange_init(Field& field, const ParallelData parallel)
     MPI_Irecv( rbuf , field.ny + 2 , MPI_DOUBLE , parallel.nup , parallel.rank , parallel.communicator , &parallel.request[3]);
 }
 
-void exchange_fin(const ParallelData parallel)
+void exchange_fin(&ParallelData parallel)
 {
     MPI_Waitall( 4 , parallel.request , parallel.status);
 }

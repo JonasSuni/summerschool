@@ -5,7 +5,10 @@
 #SBATCH --time=00:05:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --gres=gpu:v100:2
+#SBATCH --gres=gpu:v100:1
 #SBATCH --reservation=summerschool-gpu
+
+module load nvhpc/21.9
+module load nvhpc-mpi/openmpi-4.0.5
 
 srun ./main

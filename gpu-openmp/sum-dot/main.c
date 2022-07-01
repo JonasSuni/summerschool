@@ -24,8 +24,8 @@ int main(void)
 
     double res = 0.0;
 
-    #pragma omp target map(tofrom:res) reduction(+:res)
-    #pragma omp parallel for
+    #pragma omp target map(tofrom:res)
+    #pragma omp parallel for reduction(+:res)
     for (int i = 0; i < NX; i++) {
         res += vecC[i] * vecB[i];
     }

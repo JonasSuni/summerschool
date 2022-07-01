@@ -16,7 +16,7 @@ int main(void)
 
     // TODO start: create a data region and offload the two computations
     // so that data is kept in the device between the computations
-    #pragma omp target data map(to:vecB[:]) map(tofrom:vecC[:],res)
+    #pragma omp target data map(to:vecB[:]) map(tofrom:vecC[:])
     {
     #pragma omp target map(to:vecA[:])
     #pragma omp parallel for
@@ -24,9 +24,9 @@ int main(void)
         vecC[i] = vecA[i] + vecB[i];
     }
 
-    res = 0.0;
+    double res = 0.0;
 
-    #pragma omp target
+    #pragma omp target map(tofrom:res)
     #pragma omp parallel for reduction(+:res)
     for (int i = 0; i < NX; i++) {
         res += vecC[i] * vecB[i];

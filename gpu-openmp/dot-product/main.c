@@ -16,7 +16,7 @@ int main(void)
 
     double res = 0.0;
 
-    #pragma omp target map(from:res) map(to:vecA[:],vecB[:]) parallel for
+    #pragma omp target map(tofrom:res) map(to:vecA[:],vecB[:]) parallel for
     for (int i = 0; i < NX; i++) {
         res += vecA[i] * vecB[i];
     }

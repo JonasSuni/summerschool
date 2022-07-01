@@ -20,10 +20,8 @@ int main(void)
     #pragma omp parallel
     {   
         #pragma omp for
-        {
         for (int i;i<NX;i++) {
-            vecC[i] = vecA[i] + vecB[i]
-        }
+            vecC[i] = vecA[i] + vecB[i];
         }
     }
 

@@ -24,13 +24,13 @@ int main()
   double t0 = omp_get_wtime();
   // Iterate
 
-  #pragma omp target
+  #pragma omp target teams
   for (int n = 0; n < niter; n++) {
 
     // TODO start: offload the two stencil updates
 
     // Stencil update 1
-    #pragma omp teams distribute
+    #pragma omp distribute
     for (int i = 1; i < nx - 1; i++) {
       #pragma omp parallel for
       for (int j = 1; j < ny - 1; j++) {
@@ -45,7 +45,7 @@ int main()
     }
 
     // "Swap" the arrays, stencil update 2
-    #pragma omp teams distribute
+    #pragma omp distribute
     for (int i = 1; i < nx - 1; i++) {
       #pragma omp parallel for
       for (int j = 1; j < ny - 1; j++) {

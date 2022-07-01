@@ -14,13 +14,11 @@ int main(void)
 
     // TODO start: offload and parallelize the computation
 
-    #pragma omp target
-    {
     double res = 0.0;
-    #pragma omp parallel for
+
+    #pragma omp target parallel for
     for (int i = 0; i < NX; i++) {
         res += vecA[i] * vecB[i];
-    }
     }
 
     // TODO end

@@ -30,7 +30,7 @@ int main() {
     int y_start = block * y_block_size;
     int y_end = y_start + y_block_size;
 
-    // #pragma omp target teams distribute parallel for
+    #pragma omp target teams distribute parallel for collapse(2)
     for (int y = y_start; y < y_end; y++) {
       for (int x = 0; x < width; x++) {
         int ind = y * width + x;

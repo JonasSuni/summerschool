@@ -23,16 +23,14 @@ int main() {
 
   // TODO start: offload the calculation according to assignment
 
-  #pragma omp target enter data map(to:image[0:width*height]) map(to:num_blocks,y_block_size)
+  #pragma omp target enter data map(to:image[0:width*height])
 
-  #pragma omp target update from(image[0:width*height])
   for(int block = 0; block < num_blocks; block++ ) {
     int y_start = block * y_block_size;
     int y_end = y_start + y_block_size;
 
-    #pragma omp target teams distribute
+    #pragma omp target teams distribute parallel for
     for (int y = y_start; y < y_end; y++) {
-      #pragma omp parallel for
       for (int x = 0; x < width; x++) {
         int ind = y * width + x;
         image[ind] = kernel(x, y);

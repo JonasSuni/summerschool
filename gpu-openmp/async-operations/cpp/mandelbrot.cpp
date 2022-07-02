@@ -14,7 +14,8 @@ int kernel(int xi, int yi);
 
 int main() {
 
-  std::vector<int> image(width * height);
+  // std::vector<int> image(width * height);
+  int *image = new int[width*height];
   int num_blocks = 8;
   int block_size = (height / num_blocks) * width;
   int y_block_size = height / num_blocks;
@@ -23,7 +24,7 @@ int main() {
 
   // TODO start: offload the calculation according to assignment
 
-  #pragma omp target data map(alloc:image[0:width*height]) map(to:num_blocks,block_size,y_block_size)
+  #pragma omp target data map(alloc:image[0:width*height])
   for(int block = 0; block < num_blocks; block++ ) {
     int y_start = block * y_block_size;
     int y_end = y_start + y_block_size;

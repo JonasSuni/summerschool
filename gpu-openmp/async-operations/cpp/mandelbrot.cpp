@@ -23,7 +23,7 @@ int main() {
 
   // TODO start: offload the calculation according to assignment
 
-  #pragma omp target data map(alloc:image[width*height])
+  #pragma omp target data map(alloc:image[0:width*height]) map(to:num_blocks,block_size,y_block_size)
   {
 
   for(int block = 0; block < num_blocks; block++ ) {

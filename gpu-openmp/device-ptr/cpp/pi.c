@@ -44,9 +44,9 @@ float gpu_pi(size_t n)
     y = (float *)malloc(n * sizeof(float));
 
     // TODO start: allocate x and y in the device with OpenMP enter data
-    // #pragma omp enter data alloc(x[0:n],y[0:n])
-    #pragma omp target data map(alloc:x[0:n],y[0:n])
-    {
+    #pragma omp target enter data alloc(x[0:n],y[0:n])
+    // #pragma omp target data map(alloc:x[0:n],y[0:n])
+    // {
     // TODO end
 
     inside = 0;
@@ -76,8 +76,8 @@ float gpu_pi(size_t n)
     // TODO end
 
     // TODO start: deallocate x and y in the device with OpenMP exit data
-    }
-    // #pragma omp exit data delete(x[0:n],y[0:n])
+    // }
+    #pragma omp target exit data delete(x[0:n],y[0:n])
     // TODO end
 
     free(x);

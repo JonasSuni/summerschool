@@ -8,7 +8,9 @@
 using namespace std;
 
 // TODO make mandelbrot device function
+#pragma omp declare target
 int kernel(int xi, int yi);
+#pragma omp end declare target
 
 int main() {
 
@@ -21,16 +23,24 @@ int main() {
 
   // TODO start: offload the calculation according to assignment
 
+  #pragma omp target enter data map(alloc:image[0:width*height]) nowait
+
+  #pragma omp target update from(image)
   for(int block = 0; block < num_blocks; block++ ) {
     int y_start = block * y_block_size;
     int y_end = y_start + y_block_size;
 
+    #pragma omp target teams distribute
     for (int y = y_start; y < y_end; y++) {
+      #pragma omp parallel for
       for (int x = 0; x < width; x++) {
         int ind = y * width + x;
         image[ind] = kernel(x, y);
       }
     }
+
+
+  #pragma omp target exit data
 
   }
 

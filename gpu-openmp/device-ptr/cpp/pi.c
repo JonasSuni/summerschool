@@ -44,8 +44,8 @@ float gpu_pi(size_t n)
     y = (float *)malloc(n * sizeof(float));
 
     // TODO start: allocate x and y in the device with OpenMP enter data
-    #pragma omp target data map(alloc:x,y)
-    {
+    #pragma omp enter data alloc(x,y)
+    
     // TODO end
 
     inside = 0;
@@ -65,7 +65,7 @@ float gpu_pi(size_t n)
 
 
     // TODO start: execute the loop in parallel in device
-        #pragma omp target teams distribute parallel for
+        #pragma omp target teams distribute parallel for reduction(+:inside)
         for (int i = 0; i < n; i++) {
             if (x[i]*x[i] + y[i]*y[i] < 1.0) {
                 inside++;
@@ -75,7 +75,7 @@ float gpu_pi(size_t n)
     // TODO end
 
     // TODO start: deallocate x and y in the device with OpenMP exit data
-    }
+    #pragma omp exit data delete(x,y)
     // TODO end
 
     free(x);

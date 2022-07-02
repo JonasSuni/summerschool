@@ -23,8 +23,8 @@ int main() {
 
   // TODO start: offload the calculation according to assignment
 
-  #pragma omp target enter data map(to:image[0:width*height])
-
+  #pragma omp target data map(to:image[0:width*height])
+  {
   for(int block = 0; block < num_blocks; block++ ) {
     int y_start = block * y_block_size;
     int y_end = y_start + y_block_size;
@@ -37,10 +37,8 @@ int main() {
       }
     }
 
-
-  #pragma omp target exit data map(from:image[0:width*height])
-
   }
+}
 
   // TODO end
 

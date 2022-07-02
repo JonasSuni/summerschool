@@ -8,4 +8,4 @@
 #SBATCH --gres=gpu:a100:1
 ##SBATCH --reservation=summerschool-gpu
 
-srun ./pi 100000
+srun ./pi 1000000

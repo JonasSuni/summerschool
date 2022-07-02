@@ -25,7 +25,7 @@ int main() {
 
   #pragma omp target enter data map(to:image[0:width*height]) map(to:num_blocks,y_block_size)
 
-  #pragma omp target update from(image)
+  #pragma omp target update from(image[0:width*height])
   for(int block = 0; block < num_blocks; block++ ) {
     int y_start = block * y_block_size;
     int y_end = y_start + y_block_size;

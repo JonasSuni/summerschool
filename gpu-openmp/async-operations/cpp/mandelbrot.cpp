@@ -44,7 +44,7 @@ int main() {
 
   return 0;
 
-  #pragma omp taskwait
+  // #pragma omp taskwait
 
   // TODO end
 

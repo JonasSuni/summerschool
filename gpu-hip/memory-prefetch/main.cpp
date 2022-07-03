@@ -43,10 +43,10 @@ void explicitMem(int nSteps, int nx, int ny)
   int *A, *d_A;
   size_t size = nx * ny * sizeof(int);
 
-  #error Allocate pageable host memory of size for the pointer A
+  //#error Allocate pageable host memory of size for the pointer A
   A = (int*)malloc(size);
 
-  #error Allocate pinned device memory (d_A)
+  //#error Allocate pinned device memory (d_A)
   hipMalloc((void**)&d_A,size);
 
   // Start timer and begin stepping loop
@@ -63,7 +63,7 @@ void explicitMem(int nSteps, int nx, int ny)
     // Initialize array from host
     memset(A, 0, size);
 
-    #error Copy data to device (A to d_A)
+    //#error Copy data to device (A to d_A)
     hipMemcpy(d_A,A,size,hipMemcpyHostToDevice);
 
     // Launch GPU kernel
@@ -71,11 +71,11 @@ void explicitMem(int nSteps, int nx, int ny)
       gridsize, BLOCKSIZE, 0, 0,
       d_A, nx, ny);
 
-    #error Synchronization
+    //#error Synchronization
     hipDeviceSynchronize();
   }
 
-  #error Copy data back to host (d_A to A)
+  //#error Copy data back to host (d_A to A)
   hipMemcpy(A,d_A,size,hipMemcpyDeviceToHost);
 
 
@@ -83,10 +83,10 @@ void explicitMem(int nSteps, int nx, int ny)
   clock_t tStop = clock();
   checkResults(A, nx, ny, "ExplicitMemCopy", (double)(tStop - tStart) / CLOCKS_PER_SEC);
 
-  #error Free device array (d_A)
+  //#error Free device array (d_A)
   hipFree(d_A);
 
-  #error Free host array (A)
+  //#error Free host array (A)
   free(A);
 }
 
@@ -99,10 +99,10 @@ void explicitMemPinned(int nSteps, int nx, int ny)
   int *A, *d_A;
   size_t size = nx * ny * sizeof(int);
 
-  #error Allocate pinned host memory of size for the pointer A
+  //#error Allocate pinned host memory of size for the pointer A
   hipHostMalloc((void**)&A,size);
 
-  #error Allocate pinned device memory (d_A)
+  //#error Allocate pinned device memory (d_A)
   hipMalloc((void**)&d_A,size);
 
 
@@ -120,7 +120,7 @@ void explicitMemPinned(int nSteps, int nx, int ny)
     // Initialize array from host
     memset(A, 0, size);
 
-    #error Copy data to device (A to d_A)
+    //#error Copy data to device (A to d_A)
     hipMemcpy(d_A,A,size,hipMemcpyHostToDevice);
 
     // Launch GPU kernel
@@ -128,11 +128,11 @@ void explicitMemPinned(int nSteps, int nx, int ny)
       gridsize, BLOCKSIZE, 0, 0,
       d_A, nx, ny);
 
-    #error Synchronization
+    //#error Synchronization
     hipDeviceSynchronize();
   }
 
-  #error Copy data back to host (d_A to A)
+  //#error Copy data back to host (d_A to A)
   hipMemcpy(A,d_A,size,hipMemcpyDeviceToHost);
 
 
@@ -140,10 +140,10 @@ void explicitMemPinned(int nSteps, int nx, int ny)
   clock_t tStop = clock();
   checkResults(A, nx, ny, "ExplicitMemPinnedCopy", (double)(tStop - tStart) / CLOCKS_PER_SEC);
 
-  #error Free device array (d_A)
+  //#error Free device array (d_A)
   hipFree(d_A);
 
-  #error Free host array (A)
+  //#error Free host array (A)
   hipHostFree(A);
 }
 
@@ -156,10 +156,10 @@ void explicitMemNoCopy(int nSteps, int nx, int ny)
   int *A, *d_A;
   size_t size = nx * ny * sizeof(int);
 
-  #error Allocate pageable host memory of size for the pointer A
+  //#error Allocate pageable host memory of size for the pointer A
   A = (int*)malloc(size);
 
-  #error Allocate pinned device memory (d_A)
+  //#error Allocate pinned device memory (d_A)
   hipMalloc((void**)&d_A,size)
 
   // Start timer and begin stepping loop
@@ -172,7 +172,7 @@ void explicitMemNoCopy(int nSteps, int nx, int ny)
      * Initializing array using device, and running a GPU kernel.
      */
 
-    #error Initialize array to 0 from device
+    //#error Initialize array to 0 from device
     hipMemset(d_A,0,size);
 
     // Launch GPU kernel
@@ -181,17 +181,17 @@ void explicitMemNoCopy(int nSteps, int nx, int ny)
       d_A, nx, ny);
   }
 
-  #error Copy data back to host (d_A to A)
+  //#error Copy data back to host (d_A to A)
   hipMemcpy(A,d_A,size,hipMemcpyDeviceToHost);
 
   // Check results and print timings
   clock_t tStop = clock();
   checkResults(A, nx, ny, "ExplicitMemNoCopy", (double)(tStop - tStart) / CLOCKS_PER_SEC);
 
-  #error Free device array (d_A)
+  //#error Free device array (d_A)
   hipFree(d_A);
 
-  #error Free host array (A)
+  //#error Free host array (A)
   free(A);
 }
 
@@ -204,7 +204,7 @@ void unifiedMem(int nSteps, int nx, int ny)
   int *A;
   size_t size = nx * ny * sizeof(int);
 
-  #error Allocate Unified Memory of size for the pointer A
+  //#error Allocate Unified Memory of size for the pointer A
   hipMallocManaged((void**)&A);
 
   // Start timer and begin stepping loop
@@ -221,12 +221,12 @@ void unifiedMem(int nSteps, int nx, int ny)
     // Initialize array from host
     memset(A, 0, size);
 
-    #error Launch GPU kernel
+    //#error Launch GPU kernel
     hipLaunchKernelGGL(hipKernel,
       gridsize, BLOCKSIZE, 0, 0,
       A, nx, ny);
 
-    #error Synchronization
+    //#error Synchronization
     hipDeviceSynchronize();
   }
 
@@ -234,7 +234,7 @@ void unifiedMem(int nSteps, int nx, int ny)
   clock_t tStop = clock();
   checkResults(A, nx, ny, "UnifiedMemNoPrefetch", (double)(tStop - tStart) / CLOCKS_PER_SEC);
 
-  #error Free Unified Memory array (A)
+  //#error Free Unified Memory array (A)
   hipFree(A);
 }
 
@@ -245,12 +245,12 @@ void unifiedMemPrefetch(int nSteps, int nx, int ny)
   const int gridsize = (nx * ny - 1 + BLOCKSIZE) / BLOCKSIZE;
 
   int device;
-  #error Get device id number for prefetching
+  //#error Get device id number for prefetching
   device = cudaCpuDeviceId()
   int *A;
   size_t size = nx * ny * sizeof(int);
 
-  #error Allocate Unified Memory of size for the pointer A
+  //#error Allocate Unified Memory of size for the pointer A
   hipMallocManaged((void**)&A,size);
 
   // Start timer and begin stepping loop
@@ -267,30 +267,30 @@ void unifiedMemPrefetch(int nSteps, int nx, int ny)
     // Initialize array from host
     memset(A, 0, size);
 
-    #error Prefetch data from host to device (A)
+    //#error Prefetch data from host to device (A)
     cudaMemPrefetchAsync(A,size,device);
 
-    #error Launch GPU kernel
+    //#error Launch GPU kernel
 
     hipLaunchKernelGGL(hipKernel,
       gridsize, BLOCKSIZE, 0, 0,
       A, nx, ny);
 
-    #error Synchronization
+    //#error Synchronization
     hipDeviceSynchronize();
   }
 
-  #error Prefetch data from device to host (A)
+  //#error Prefetch data from device to host (A)
   cudaMemPrefetchAsync(A,size,0);
 
-  #error Synchronization
+  //#error Synchronization
   hipDeviceSynchronize();
 
   // Check results and print timings
   clock_t tStop = clock();
   checkResults(A, nx, ny, "UnifiedMemPrefetch", (double)(tStop - tStart) / CLOCKS_PER_SEC);
 
-  #error Free Unified Memory array (A)
+  //#error Free Unified Memory array (A)
   hipFree(A);
 }
 
@@ -301,13 +301,13 @@ void unifiedMemNoCopy(int nSteps, int nx, int ny)
   const int gridsize = (nx * ny - 1 + BLOCKSIZE) / BLOCKSIZE;
 
   int device;
-  #error Get device id number for prefetching
+  //#error Get device id number for prefetching
   device = cudaCpuDeviceId();
 
   int *A;
   size_t size = nx * ny * sizeof(int);
 
-  #error Allocate Unified Memory of size for the pointer A
+  //#error Allocate Unified Memory of size for the pointer A
   hipMallocManaged((void**)&A,size);
 
   // Start timer and begin stepping loop
@@ -320,26 +320,26 @@ void unifiedMemNoCopy(int nSteps, int nx, int ny)
      * Initializing array using device, and running a GPU kernel.
      */
 
-    #error Initialize array from device (A)
+    //#error Initialize array from device (A)
     hipMemset(A,0,size)
 
-    #error Launch GPU kernel
+    //#error Launch GPU kernel
 
     hipLaunchKernelGGL(hipKernel,
       gridsize, BLOCKSIZE, 0, 0,
       A, nx, ny);
   }
-  #error Prefetch data from device to host (A)
+  //#error Prefetch data from device to host (A)
   cudaMemPrefetchAsync(A,size,0);
 
-  #error Synchronization
+  //#error Synchronization
   hipDeviceSynchronize();
 
   // Check results and print timings
   clock_t tStop = clock();
   checkResults(A, nx, ny, "UnifiedMemNoCopy", (double)(tStop - tStart) / CLOCKS_PER_SEC);
 
-  #error Free Unified Memory array (A)
+  //#error Free Unified Memory array (A)
   hipFree(A);
 }
 

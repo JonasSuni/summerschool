@@ -37,8 +37,8 @@ int main(void)
 
     // TODO: copy initial values from CPU to GPU (x -> x_ and y -> y_)
 
-    hipMemcpy(x_,x,sizeof(double)*n,hipMemcpyHostToDevice);
-    hipMemcpy(y_,y,sizeof(double)*n,hipMemcpyHostToDevice);
+    hipMemcpy(x_,x,sizeof(float)*n,hipMemcpyHostToDevice);
+    hipMemcpy(y_,y,sizeof(float)*n,hipMemcpyHostToDevice);
 
     // TODO: define grid dimensions
 
@@ -50,7 +50,7 @@ int main(void)
 
     // TODO: copy results back to CPU (y_ -> y)
 
-    hipMemcpy(y,y_,sizeof(double)*n,hipMemcpyDeviceToHost);
+    hipMemcpy(y,y_,sizeof(float)*n,hipMemcpyDeviceToHost);
 
     // confirm that results are correct
     float error = 0.0;

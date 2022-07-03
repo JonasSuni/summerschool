@@ -96,11 +96,16 @@ int main(int argc, char **argv)
   // Async case 2: loop over {async copy, kernel, async copy}
 {
     memset(a, 0, bytes);
+    hipEventRecord(startEvenet,0);
   
     // TODO: Same as case 1, except use asynchronous memcopies 
     // TODO: Here split also the memcopies for each stream 
     // TODO: Ie, looping over {async copy, kernel, async copy}
     // TODO: You should also add the missing hipEvent function calls (cf. case 1)
+
+    hipEventRecord(stopEvent,0);
+    hipEventSynchronize(stopEvent);
+    hipEventElapsedTime(&duration,startEvent,stopEvent);
 
     printf("Case 2 - Duration for asynchronous transfer+kernels: %f (ms)\n", duration);
     printf("  max error: %e\n", maxError(a, n));

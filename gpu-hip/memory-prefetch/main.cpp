@@ -160,7 +160,7 @@ void explicitMemNoCopy(int nSteps, int nx, int ny)
   A = (int*)malloc(size);
 
   //#error Allocate pinned device memory (d_A)
-  hipMalloc((void**)&d_A,size)
+  hipMalloc((void**)&d_A,size);
 
   // Start timer and begin stepping loop
   clock_t tStart = clock();

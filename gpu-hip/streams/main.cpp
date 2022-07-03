@@ -67,8 +67,8 @@ int main(int argc, char **argv)
 
   // TODO: Create `nStream` streams here (nStream is defined already to be 4)
 
-  hipStream_t streams[nStream];
-  for (int i=0;i<nStream;i++) {
+  hipStream_t streams[nStreams];
+  for (int i=0;i<nStreams;i++) {
     hipStreamCreate(&streams[i]);
   }
 
@@ -81,8 +81,8 @@ int main(int argc, char **argv)
     // TODO: loop over nStreams and split the case 1 kernel for 4 kernel calls (one for each stream)
     // TODO: Each stream should handle 1/nStreams of work
 
-    for (int i=0;i<nStream,i++) {
-      hipLaunchKernelGGL(kernel,n/(blockSize*nStream),blockSize,0,0,d_a,0);
+    for (int i=0;i<nStreams,i++) {
+      hipLaunchKernelGGL(kernel,n/(blockSize*nStreams),blockSize,0,0,d_a,0);
     }
   
     hipMemcpy(a, d_a, bytes, hipMemcpyDeviceToHost);
@@ -125,7 +125,7 @@ int main(int argc, char **argv)
 
   // TODO: Destroy streams here
 
-  for (int i=0;i<nStream;i++) {
+  for (int i=0;i<nStreams;i++) {
     hipStreamDestroy(streams[i]);
   }
 

@@ -49,8 +49,8 @@ int main(void)
 
     // TODO: define grid dimensions (use 2D grid!)
 
-    dim3 blocks(25,25);
-    dim3 threads(24,16);
+    dim3 blocks(24,16);
+    dim3 threads(25,25);
 
     // TODO: launch the device kernel
     hipLaunchKernelGGL(dcopy_,blocks,threads,0,0,size,x_,y_);

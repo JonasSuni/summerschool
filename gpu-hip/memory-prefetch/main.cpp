@@ -205,7 +205,7 @@ void unifiedMem(int nSteps, int nx, int ny)
   size_t size = nx * ny * sizeof(int);
 
   //#error Allocate Unified Memory of size for the pointer A
-  hipMallocManaged((void**)&A);
+  hipMallocManaged((void**)&A,size);
 
   // Start timer and begin stepping loop
   clock_t tStart = clock();

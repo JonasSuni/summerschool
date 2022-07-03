@@ -246,7 +246,7 @@ void unifiedMemPrefetch(int nSteps, int nx, int ny)
 
   int device;
   //#error Get device id number for prefetching
-  device = cudaCpuDeviceId();
+  cudaGetDevice(&device);
   int *A;
   size_t size = nx * ny * sizeof(int);
 
@@ -302,7 +302,7 @@ void unifiedMemNoCopy(int nSteps, int nx, int ny)
 
   int device;
   //#error Get device id number for prefetching
-  cudaCpuDeviceId(&device);
+  cudaGetDevice(&device);
 
   int *A;
   size_t size = nx * ny * sizeof(int);

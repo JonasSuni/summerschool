@@ -1,7 +1,7 @@
 #include "hip/hip_runtime.h"
 #include <stdio.h>
 
-#define USE_PINNED_HOST_MEM 1
+#define USE_PINNED_HOST_MEM 0
 
 __global__ void kernel(float *a, int offset)
 {

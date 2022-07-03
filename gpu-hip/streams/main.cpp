@@ -106,7 +106,7 @@ int main(int argc, char **argv)
     for (int i=0;i<nStreams;i++) {
       hipMemcpyAsync(d_a,a,bytes,hipMemcpyHostToDevice,streams[i]);
       hipLaunchKernelGGL(kernel,dim3(n/(blockSize*nStreams)),dim3(blockSize),0,streams[i],d_a,n*i/nStreams);
-      hipMemcpyAsync(a,d_a,bytes,hipMemcpyDeviceToHost,streams[i]);
+      hipMemcpyAsync(a[bytes*i/nStreams],d_a[bytes*i/nStreams],bytes/nStreams,hipMemcpyDeviceToHost,streams[i]);
     }
 
     hipEventRecord(stopEvent,0);

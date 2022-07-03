@@ -281,7 +281,7 @@ void unifiedMemPrefetch(int nSteps, int nx, int ny)
   }
 
   //#error Prefetch data from device to host (A)
-  cudaMemPrefetchAsync(A,size,0);
+  cudaMemPrefetchAsync(A,size,cudaCpuDeviceId());
 
   //#error Synchronization
   hipDeviceSynchronize();
@@ -330,7 +330,7 @@ void unifiedMemNoCopy(int nSteps, int nx, int ny)
       A, nx, ny);
   }
   //#error Prefetch data from device to host (A)
-  cudaMemPrefetchAsync(A,size,0);
+  cudaMemPrefetchAsync(A,size,cudaCpuDeviceId());
 
   //#error Synchronization
   hipDeviceSynchronize();

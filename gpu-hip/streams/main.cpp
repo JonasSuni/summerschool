@@ -82,7 +82,7 @@ int main(int argc, char **argv)
     // TODO: Each stream should handle 1/nStreams of work
 
     for (int i=0;i<nStreams;i++) {
-      hipLaunchKernelGGL(kernel,dim3(n/(blockSize*nStreams)),dim3(blockSize),0,streams[i],d_a,i*n/(blockSize*nStreams));
+      hipLaunchKernelGGL(kernel,dim3(n/(blockSize*nStreams)),dim3(blockSize),0,streams[i],d_a,bytes*i/(blockSize*nStreams));
     }
   
     hipMemcpy(a, d_a, bytes, hipMemcpyDeviceToHost);

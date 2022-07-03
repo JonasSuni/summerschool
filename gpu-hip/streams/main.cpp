@@ -81,7 +81,7 @@ int main(int argc, char **argv)
     // TODO: loop over nStreams and split the case 1 kernel for 4 kernel calls (one for each stream)
     // TODO: Each stream should handle 1/nStreams of work
 
-    for (int i=0;i<nStreams,i++) {
+    for (int i=0;i<nStreams;i++) {
       hipLaunchKernelGGL(kernel,n/(blockSize*nStreams),blockSize,0,0,d_a,0);
     }
   

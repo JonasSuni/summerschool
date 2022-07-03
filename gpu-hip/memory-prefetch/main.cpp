@@ -302,7 +302,7 @@ void unifiedMemNoCopy(int nSteps, int nx, int ny)
 
   int device;
   //#error Get device id number for prefetching
-  device = cudaCpuDeviceId();
+  cudaCpuDeviceId(&device);
 
   int *A;
   size_t size = nx * ny * sizeof(int);

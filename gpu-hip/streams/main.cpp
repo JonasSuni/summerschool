@@ -104,7 +104,7 @@ int main(int argc, char **argv)
     // TODO: You should also add the missing hipEvent function calls (cf. case 1)
 
     for (int i=0;i<nStreams;i++) {
-      hipMemcpyAsync(&d_a[n*i/nStreams],&a[n*i/nStreams],bytes/nStreams,hipMemcpyHostToDevice,streams[i]);
+      hipMemcpyAsync(d_a,a,bytes/nStreams,hipMemcpyHostToDevice,streams[i]);
       hipLaunchKernelGGL(kernel,dim3(n/(blockSize*nStreams)),dim3(blockSize),0,streams[i],d_a,n*i/nStreams);
       hipMemcpyAsync(&a[n*i/nStreams],&d_a[n*i/nStreams],bytes/nStreams,hipMemcpyDeviceToHost,streams[i]);
     }

@@ -126,6 +126,18 @@ int main(int argc, char **argv)
     // TODO: Ie, loop 1 {async copy} loop 2 {kernel}. loop 3 {async copy}
     // TODO: You should also add the missing hipEvent function calls (cf. case 1)
 
+    for (int i=0;i<nStreams;i++) {
+      hipMemcpyAsync(&d_a[n*i/nStreams],&a[n*i/nStreams],bytes/nStreams,hipMemcpyHostToDevice,streams[i]);
+    }
+
+    for (int i=0;i<nStreams;i++) {
+      hipLaunchKernelGGL(kernel,dim3(n/(blockSize*nStreams)),dim3(blockSize),0,streams[i],d_a,n*i/nStreams);
+    }
+
+    for (int i=0;i<nStreams;i++) {
+      hipMemcpyAsync(&a[n*i/nStreams],&d_a[n*i/nStreams],bytes/nStreams,hipMemcpyDeviceToHost,streams[i]);
+    }
+
     hipEventRecord(stopEvent,0);
     hipEventSynchronize(stopEvent);
     hipEventElapsedTime(&duration,startEvent,stopEvent);

@@ -33,7 +33,7 @@ int main(void)
     // TODO: allocate vectors x_ and y_ on the GPU
 
     hipMalloc(&x_, sizeof(float)*n);
-    hipMalloc(&y_, sizeof(float)*n)
+    hipMalloc(&y_, sizeof(float)*n);
 
     // TODO: copy initial values from CPU to GPU (x -> x_ and y -> y_)
 

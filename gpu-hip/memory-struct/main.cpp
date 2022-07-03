@@ -79,7 +79,9 @@ void runDeviceUnifiedMem()
   hipLaunchKernelGGL(hipKernel,dim3(16),dim3(BLOCKSIZE),0,0,ex);
 
   //#error Free struct
-  free(ex);
+  hipFree(ex->x);
+  hipFree(ex->idx);
+  hipFree(ex);
 }
 
 /* Create the device struct (needed for explicit memory management) */

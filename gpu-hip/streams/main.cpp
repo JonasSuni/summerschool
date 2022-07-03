@@ -96,7 +96,7 @@ int main(int argc, char **argv)
   // Async case 2: loop over {async copy, kernel, async copy}
 {
     memset(a, 0, bytes);
-    hipEventRecord(startEvenet,0);
+    hipEventRecord(startEvent,0);
   
     // TODO: Same as case 1, except use asynchronous memcopies 
     // TODO: Here split also the memcopies for each stream 

@@ -59,7 +59,7 @@ int main(void)
     dim3 threads(25,25);
 
     // TODO: launch the device kernel
-    HIP_SAFECALL(hipLaunchKernelGGL(dcopy_,blocks,threads,0,0,size,x_,y_));
+    hipLaunchKernelGGL(dcopy_,blocks,threads,0,0,size,x_,y_);
 
     // TODO: copy results back to CPU (y_ -> y)
 

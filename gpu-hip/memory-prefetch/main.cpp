@@ -321,7 +321,7 @@ void unifiedMemNoCopy(int nSteps, int nx, int ny)
      */
 
     //#error Initialize array from device (A)
-    hipMemset(A,0,size)
+    hipMemset(A,0,size);
 
     //#error Launch GPU kernel
 

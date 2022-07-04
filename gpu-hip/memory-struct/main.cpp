@@ -127,8 +127,8 @@ void freeDeviceExample(Example *d_ex)
 
   //#error Copy struct members (pointers) from device to host
 
-  hipMemcpy(d_x,&d_ex->x,size*sizeof(float),hipMemcpyDeviceToHost);
-  hipMemcpy(d_idx,&d_ex->idx,size*sizeof(int),hipMemcpyDeviceToHost);
+  hipMemcpy(&d_x,&d_ex->x,size*sizeof(float),hipMemcpyDeviceToHost);
+  hipMemcpy(&d_idx,&d_ex->idx,size*sizeof(int),hipMemcpyDeviceToHost);
   
 
   //#error Free device struct members

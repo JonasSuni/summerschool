@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
         hipMemcpyAsync(&dA[i],&hA[dec[i].start],dec[i].len*sizeof(double),hipMemcpyHostToDevice);
         hipMemcpyAsync(&dC[i],&hB[dec[i].start],dec[i].len*sizeof(double),hipMemcpyHostToDevice);
         hipLaunchKernelGGL(vector_add,dim3(1),dim3(ThreadsInBlock),0,strm[i],dC[i],dA[i],dB[i],dec[i].len);
-        hipMemcpy(&hC[dec[i].start],dC,dec[i].len*sizeof(double),hipMemcpyDeviceToHost);
+        hipMemcpy(&hC[dec[i].start],&dC[i],dec[i].len*sizeof(double),hipMemcpyDeviceToHost);
     }
 
     // Synchronize and destroy the streams

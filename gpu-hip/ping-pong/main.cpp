@@ -103,10 +103,15 @@ void GPUtoGPUdirect(int rank, double *dA, int N, double &timer)
     if (rank == 0) {
         // TODO: Send vector to rank 1
         // TODO: Receive vector from rank 1
+        MPI_Send( dA , N , MPI_DOUBLE , 1 , 1 , MPI_COMM_WORLD);
+        MPI_Recv( dA , N , MPI_DOUBLE , 1 , 0 , MPI_COMM_WORLD , MPI_STATUS_IGNORE);
     } else if (rank == 1) {
         // TODO: Receive vector from rank 0
         // TODO: Launch kernel to increment values on the GPU
         // TODO: Send vector to rank 0
+        MPI_Recv( dA , N , MPI_DOUBLE , 0 , 1 , MPI_COMM_WORLD , MPI_STATUS_IGNORE);
+        hipLaunchKernelGGL(add_kernel,dim3(10),dim3(128),0,0,dA,N);
+        MPI_Send( dA , N , MPI_DOUBLE , 0 , 0 , MPI_COMM_WORLD);
     }
 
     stop = MPI_Wtime();

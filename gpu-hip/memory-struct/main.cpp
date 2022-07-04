@@ -121,17 +121,17 @@ void freeDeviceExample(Example *d_ex)
   int *d_idx;
 
   //#error Copy struct members (pointers) from device to host
-  printf("Copying arrays from device to host");
+  printf("Copying arrays from device to host\n");
   hipMemcpy(&d_x,&(d_ex->x),sizeof(float*),hipMemcpyDeviceToHost);
   hipMemcpy(&d_idx,&(d_ex->idx),sizeof(int*),hipMemcpyDeviceToHost);
 
   //#error Free device struct members
-  printf("Freeing arrays on device");
+  printf("Freeing arrays on device\n");
   hipFree(d_x);
   hipFree(d_idx);
 
   //#error Free device struct
-  printf("Freeing device struct members and struct");
+  printf("Freeing device struct members and struct\n");
   hipFree(d_ex->x);
   hipFree(d_ex->idx);
   hipFree(d_ex);
@@ -163,7 +163,7 @@ void runDeviceExplicitMem()
   //#error Print struct values from device by calling hipKernel()
   printf("\nDevice (ExplicitMem):\n");
   hipLaunchKernelGGL(hipKernel,dim3(16),dim3(BLOCKSIZE),0,0,d_ex);
-
+  hipDeviceSynchronize();
 
   // Free device struct
   freeDeviceExample(d_ex);

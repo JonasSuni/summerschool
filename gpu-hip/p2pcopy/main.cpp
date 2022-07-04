@@ -10,16 +10,15 @@ void copyP2P(int p2p, int gpu0, int gpu1, int* dA_0, int* dA_1, int size) {
     if (p2p)
     {
         // TODO: Enable peer access for GPU 0 and GPU 1
-        hipSetDevice(0);
-        hipDeviceEnablePeerAccess(1,0);
-        hipSetDevice(1);
-        hipDeviceEnablePeerAccess(0,0);
+        hipSetDevice(gpu0);
+        hipDeviceEnablePeerAccess(gpu1,0);
+        hipSetDevice(gpu1);
+        hipDeviceEnablePeerAccess(gpu0,0);
     }
-    hipSetDevice(0);
 
     // Do a dummy copy without timing to remove the impact of the first one
     // TODO: Copy dA_1 on device 1 to dA_0 on device 0
-    hipMemcpy(dA_0,dA_1,size*sizeof(int),hipMemcpyDefault);
+    hipMemcpy(dA_0,dA_1,size,hipMemcpyDefault);
 
     // Do a series of timed P2P memory copies
     int N = 10;
@@ -27,13 +26,11 @@ void copyP2P(int p2p, int gpu0, int gpu1, int* dA_0, int* dA_1, int size) {
     // TODO: Copy dA_1 on device 1 to dA_0 on device 0, repeat for N times to
     //       get timings
     for (int i=0;i<N;i++) {
-        hipMemcpy(dA_0,dA_1,size*sizeof(int),hipMemcpyDefault);
+        hipMemcpy(dA_0,dA_1,size,hipMemcpyDefault);
     }
     // TODO: After the memory copies, remember to synchronize the stream
     //       before stopping the clock
-    hipDeviceSynchronize();
-    hipSetDevice(1);
-    hipDeviceSynchronize();
+    hipStreamSynchronize(0);
     clock_t tStop = clock();
 
     // Calcute time and bandwith

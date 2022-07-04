@@ -119,11 +119,6 @@ void freeDeviceExample(Example *d_ex)
 {
   float *d_x;
   int *d_idx;
-  int size;
-
-  hipMemcpy(&size,&d_ex->size,sizeof(int),hipMemcpyDeviceToHost);
-  d_x = (float*)malloc(size*sizeof(float));
-  d_idx = (int*)malloc(size*sizeof(int));
 
   //#error Copy struct members (pointers) from device to host
 
@@ -133,8 +128,8 @@ void freeDeviceExample(Example *d_ex)
 
   //#error Free device struct members
 
-  free(d_x);
-  free(d_idx);
+  hipFree(d_x);
+  hipFree(d_idx);
 
   //#error Free device struct
 

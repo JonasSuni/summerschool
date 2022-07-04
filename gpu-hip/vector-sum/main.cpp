@@ -70,9 +70,9 @@ int main(int argc, char *argv[])
         // TODO: Create a stream for each device
         hipSetDevice(i);
 
-        hipMalloc((void**)&(dA[i]),dec[i]*sizeof(double));
-        hipMalloc((void**)&(dB[i]),dec[i]*sizeof(double));
-        hipMalloc((void**)&(dC[i]),dec[i]*sizeof(double));
+        hipMalloc((void**)&(dA[i]),dec[i].len*sizeof(double));
+        hipMalloc((void**)&(dB[i]),dec[i].len*sizeof(double));
+        hipMalloc((void**)&(dC[i]),dec[i].len*sizeof(double));
 
         hipStreamCreate(&strm[i]);
     }
@@ -92,10 +92,10 @@ int main(int argc, char *argv[])
         // TODO: Launch 'vector_add()' kernel to calculate dC = dA + dB
         // TODO: Copy data from device to host (dC[i] -> hC[dec[0].start])
         hipSetDevice(i);
-        hipMemcpyAsync(dA[i],hA[dec[i].start],dec[i]*sizeof(double),hipMemcpyHostToDevice);
-        hipMemcpyAsync(dC[i],hB[dec[i].start],dec[i]*sizeof(double),hipMemcpyHostToDevice);
+        hipMemcpyAsync(dA[i],hA[dec[i].start],dec[i].len*sizeof(double),hipMemcpyHostToDevice);
+        hipMemcpyAsync(dC[i],hB[dec[i].start],dec[i].len*sizeof(double),hipMemcpyHostToDevice);
         hipKernelLaunchGGL(vector_add,dim3(),dim3(ThreadsInBlock),0,strm[i],dC[i],dA[i],dB[i],dec[i]);
-        hipMemcpy(hC[dec[i].start],dC,dec[i]*sizeof(double),hipMemcpyDeviceToHost);
+        hipMemcpy(hC[dec[i].start],dC,dec[i].len*sizeof(double),hipMemcpyDeviceToHost);
     }
 
     // Synchronize and destroy the streams

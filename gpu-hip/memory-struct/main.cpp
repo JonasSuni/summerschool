@@ -127,8 +127,8 @@ void freeDeviceExample(Example *d_ex)
 
   //#error Free device struct members
   printf("Freeing arrays on device\n");
-  hipFree(d_x);
-  hipFree(d_idx);
+  // hipFree(d_x);
+  // hipFree(d_idx);
 
   //#error Free device struct
   printf("Freeing device struct members and struct\n");

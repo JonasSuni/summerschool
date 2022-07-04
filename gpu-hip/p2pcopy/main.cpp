@@ -40,6 +40,10 @@ void copyP2P(int p2p, int gpu0, int gpu1, int* dA_0, int* dA_1, int size) {
     // Disable peer access for GPUs?
     if (p2p) {
         // TODO: Disable peer access for GPU 0 and GPU 1
+        hipSetDevice(gpu0);
+        hipDeviceDisablePeerAccess(gpu1);
+        hipSetDevice(gpu1);
+        hipDeviceDisablePeerAccess(gpu0);
         printf("P2P enabled - Bandwith: %.3f (GB/s), Time: %.3f s\n",
                 bandwidth, time_s);
     } else {

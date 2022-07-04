@@ -101,8 +101,8 @@ Example* createDeviceExample(Example *ex)
   hipMalloc((void**)&d_idx,ex->size*sizeof(int));
 
   //#error Copy arrays pointed by the struct members from host to device
-  hipMemcpy(d_x,&ex->x,ex->size*sizeof(float),hipMemcpyHostToDevice);
-  hipMemcpy(d_idx,&ex->idx,ex->size*sizeof(int),hipMemcpyHostToDevice);
+  hipMemcpy(&d_x,&ex->x,ex->size*sizeof(float),hipMemcpyHostToDevice);
+  hipMemcpy(&d_idx,&ex->idx,ex->size*sizeof(int),hipMemcpyHostToDevice);
 
   //#error Copy struct members from host to device
   hipMemcpy(&d_ex->size,&ex->size,sizeof(int),hipMemcpyHostToDevice);

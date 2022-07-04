@@ -82,7 +82,8 @@ void GPUtoGPUviaHost(int rank, double *hA, double *dA, int N, double &timer)
         // TODO: Copy vector to host and send it to rank 0
         MPI_Recv( hA , N , MPI_DOUBLE , 0 , 1 , MPI_COMM_WORLD , MPI_STATUS_IGNORE);
         hipMemcpy(dA,hA,N*sizeof(double),hipMemcpyHostToDevice);
-        hipLaunchKernelGGL(add_kernel,dim3(10),dim3(128),0,0,dA,N);
+        hipLaunchKernelGGL(add_kernel,dim3(1),dim3(128),0,0,dA,N);
+        hipDeviceSynchronize();
         hipMemcpy(hA,dA,N*sizeof(double),hipMemcpyDeviceToHost);
         MPI_Send( hA , N , MPI_DOUBLE , 0 , 0 , MPI_COMM_WORLD);
     }
@@ -110,7 +111,8 @@ void GPUtoGPUdirect(int rank, double *dA, int N, double &timer)
         // TODO: Launch kernel to increment values on the GPU
         // TODO: Send vector to rank 0
         MPI_Recv( dA , N , MPI_DOUBLE , 0 , 1 , MPI_COMM_WORLD , MPI_STATUS_IGNORE);
-        hipLaunchKernelGGL(add_kernel,dim3(10),dim3(128),0,0,dA,N);
+        hipLaunchKernelGGL(add_kernel,dim3(1),dim3(128),0,0,dA,N);
+        hipDeviceSynchronize();
         MPI_Send( dA , N , MPI_DOUBLE , 0 , 0 , MPI_COMM_WORLD);
     }
 

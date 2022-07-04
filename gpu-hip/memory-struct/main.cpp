@@ -173,6 +173,8 @@ void runDeviceExplicitMem()
   freeDeviceExample(d_ex);
 
   //#error Free host struct
+  free(ex->x);
+  free(ex->idx);
   free(ex);
 
 }

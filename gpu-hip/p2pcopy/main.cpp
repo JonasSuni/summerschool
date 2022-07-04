@@ -3,6 +3,8 @@
 #include <time.h>
 #include <hip/hip_runtime.h>
 
+#define CLOCKS_PER_SEC 1
+
 
 void copyP2P(int p2p, int gpu0, int gpu1, int* dA_0, int* dA_1, int size) {
 

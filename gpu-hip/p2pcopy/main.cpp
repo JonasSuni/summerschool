@@ -21,12 +21,12 @@ void copyP2P(int p2p, int gpu0, int gpu1, int* dA_0, int* dA_1, int size) {
     clock_t tStart = clock();
     // TODO: Copy dA_1 on device 1 to dA_0 on device 0, repeat for N times to
     //       get timings
-    for (int i=0;i<N,i++) {
+    for (int i=0;i<N;i++) {
             hipMemcpyPeer(dA_0,gpu0,dA_1,gpu1,size*sizeof(int));
     }
     // TODO: After the memory copies, remember to synchronize the stream
     //       before stopping the clock
-    hipStreamSynchronize();
+    hipDeviceSynchronize();
     clock_t tStop = clock();
 
     // Calcute time and bandwith
@@ -67,8 +67,8 @@ int main(int argc, char *argv[])
     hipMalloc((void**) &dA_1, size);
 
     // Check peer accessibility between GPUs 0 and 1
-    int peerAccess01;
-    int peerAccess10;
+    int peerAccess01=1;
+    int peerAccess10=1;
     // TODO: Check for peer to peer accessibility from device 0 to 1
     //       and from 1 to 0
     printf("hipDeviceCanAccessPeer: %d (GPU %d to GPU %d)\n",

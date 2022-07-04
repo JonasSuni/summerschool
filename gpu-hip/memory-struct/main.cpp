@@ -89,11 +89,9 @@ Example* createDeviceExample(Example *ex)
 {
 
   Example* d_ex;
-  hipMalloc((void **)&d_ex, sizeof(Example));
-
   
   //#error Allocate device struct
-  hipMalloc((void**)d_ex,sizeof(Example));
+  hipMalloc((void**)&d_ex,sizeof(Example));
   ex->size = 10;
   // hipMemset(&ex->size,ex->size,sizeof(int));
 

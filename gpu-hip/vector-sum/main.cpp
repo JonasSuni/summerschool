@@ -107,6 +107,7 @@ int main(int argc, char *argv[])
 
     // Stop timing
     // TODO: Add here the timing event stop calls
+    hipSetDevice(0);
     hipEventRecord(stop);
 
     // Free device memory

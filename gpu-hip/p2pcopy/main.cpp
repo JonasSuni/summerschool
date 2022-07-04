@@ -10,6 +10,10 @@ void copyP2P(int p2p, int gpu0, int gpu1, int* dA_0, int* dA_1, int size) {
     if (p2p)
     {
         // TODO: Enable peer access for GPU 0 and GPU 1
+        hipSetDevice(0);
+        hipDeviceEnablePeerAccess(1);
+        hipSetDevice(1);
+        hipDeviceEnablePeerAccess(0);
     }
 
     // Do a dummy copy without timing to remove the impact of the first one

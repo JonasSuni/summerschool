@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
         // TODO: Copy data from device to host (dC[i] -> hC[dec[0].start])
         hipSetDevice(i);
         hipMemcpyAsync((dA[i]),&(hA[dec[i].start]),dec[i].len*sizeof(double),hipMemcpyHostToDevice,strm[i]);
-        hipMemcpyAsync((dC[i]),&(hB[dec[i].start]),dec[i].len*sizeof(double),hipMemcpyHostToDevice,strm[i]);
+        hipMemcpyAsync((dB[i]),&(hB[dec[i].start]),dec[i].len*sizeof(double),hipMemcpyHostToDevice,strm[i]);
         hipLaunchKernelGGL(vector_add,dim3(10),dim3(ThreadsInBlock),0,strm[i],dC[i],dA[i],dB[i],dec[i].len);
         hipMemcpyAsync(&(hC[dec[i].start]),(dC[i]),dec[i].len*sizeof(double),hipMemcpyDeviceToHost);
     }

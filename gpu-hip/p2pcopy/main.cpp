@@ -3,8 +3,6 @@
 #include <time.h>
 #include <hip/hip_runtime.h>
 
-#define CLOCKS_PER_SEC 1
-
 
 void copyP2P(int p2p, int gpu0, int gpu1, int* dA_0, int* dA_1, int size) {
 
@@ -32,7 +30,8 @@ void copyP2P(int p2p, int gpu0, int gpu1, int* dA_0, int* dA_1, int size) {
     }
     // TODO: After the memory copies, remember to synchronize the stream
     //       before stopping the clock
-    hipDeviceSynchronize();
+    hipDeviceSynchronize(0);
+    hipDeviceSynchronize(1);
     clock_t tStop = clock();
 
     // Calcute time and bandwith

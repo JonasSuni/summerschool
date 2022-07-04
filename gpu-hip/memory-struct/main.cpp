@@ -105,9 +105,9 @@ Example* createDeviceExample(Example *ex)
   hipMemcpy(&d_idx,&ex->idx,ex->size*sizeof(int),hipMemcpyHostToDevice);
 
   //#error Copy struct members from host to device
-  hipMemcpy(&d_ex->size,&ex->size,sizeof(int),hipMemcpyHostToDevice);
-  hipMemcpy(&d_ex->x,&d_x,sizeof(float*),hipMemcpyDeviceToDevice);
-  hipMemcpy(&d_ex->idx,&d_idx,sizeof(int*),hipMemcpyDeviceToDevice);
+  hipMemcpy(&(d_ex->size),&(ex->size),sizeof(int),hipMemcpyHostToDevice);
+  hipMemcpy(&d_ex->x,&d_x,sizeof(float*),hipMemcpyHostToDevice);
+  hipMemcpy(&d_ex->idx,&d_idx,sizeof(int*),hipMemcpyHostToDevice);
 
   //#error Return device struct
 

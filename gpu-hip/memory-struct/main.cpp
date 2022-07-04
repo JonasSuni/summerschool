@@ -101,13 +101,13 @@ Example* createDeviceExample(Example *ex)
   hipMalloc((void**)&d_idx,ex->size*sizeof(int));
 
   //#error Copy arrays pointed by the struct members from host to device
-  hipMemcpy(&d_x,&ex->x,ex->size*sizeof(float),hipMemcpyHostToDevice);
-  hipMemcpy(&d_idx,&ex->idx,ex->size*sizeof(int),hipMemcpyHostToDevice);
+  hipMemcpy(&d_x,&(ex->x),ex->size*sizeof(float),hipMemcpyHostToDevice);
+  hipMemcpy(&d_idx,&(ex->idx),ex->size*sizeof(int),hipMemcpyHostToDevice);
 
   //#error Copy struct members from host to device
   hipMemcpy(&(d_ex->size),&(ex->size),sizeof(int),hipMemcpyHostToDevice);
-  hipMemcpy(&d_ex->x,&d_x,sizeof(float*),hipMemcpyHostToDevice);
-  hipMemcpy(&d_ex->idx,&d_idx,sizeof(int*),hipMemcpyHostToDevice);
+  hipMemcpy(&(d_ex->x),&d_x,sizeof(float*),hipMemcpyHostToDevice);
+  hipMemcpy(&(d_ex->idx),&d_idx,sizeof(int*),hipMemcpyHostToDevice);
 
   //#error Return device struct
 
@@ -127,8 +127,8 @@ void freeDeviceExample(Example *d_ex)
 
   //#error Copy struct members (pointers) from device to host
 
-  hipMemcpy(&d_x,&d_ex->x,size*sizeof(float),hipMemcpyDeviceToHost);
-  hipMemcpy(&d_idx,&d_ex->idx,size*sizeof(int),hipMemcpyDeviceToHost);
+  hipMemcpy(&d_x,&(d_ex->x),size*sizeof(float),hipMemcpyDeviceToHost);
+  hipMemcpy(&d_idx,&(d_ex->idx),size*sizeof(int),hipMemcpyDeviceToHost);
   
 
   //#error Free device struct members

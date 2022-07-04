@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
         hipSetDevice(i);
         hipMemcpyAsync(dA[i],hA[dec[i].start],dec[i].len*sizeof(double),hipMemcpyHostToDevice);
         hipMemcpyAsync(dC[i],hB[dec[i].start],dec[i].len*sizeof(double),hipMemcpyHostToDevice);
-        hipKernelLaunchGGL(vector_add,dim3(),dim3(ThreadsInBlock),0,strm[i],dC[i],dA[i],dB[i],dec[i]);
+        hipLaunchKernelGGL(vector_add,dim3(1),dim3(ThreadsInBlock),0,strm[i],dC[i],dA[i],dB[i],dec[i]);
         hipMemcpy(hC[dec[i].start],dC,dec[i].len*sizeof(double),hipMemcpyDeviceToHost);
     }
 
